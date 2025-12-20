@@ -1,0 +1,32 @@
+schema_version: 1
+name: deterministic-smoke
+stage: fixture
+root_seed: 20261003
+boat:
+  model_id: synthetic-displacement-v1
+  evidence_level: synthetic
+  no_go_deg: 35
+  turn_rate_deg_s: 8
+  acceleration_tau_s: 5
+  minimum_tack_s: 8
+course:
+  start_xy_m: [0, 0]
+  target_xy_m: [0, 1000]
+  finish_radius_m: 10
+  bounds_xy_m: [-600, 600, -100, 1200]
+  deadline_s: 1800
+clock:
+  physics_dt_s: 1
+  policy_interval_s: 10
+  sensor_interval_s: 2
+  forecast_interval_s: 30
+world:
+  family: constant
+  wind_from_deg: 0
+  wind_speed_m_s: 6
+  current_ground_m_s: [0, 0]
+policy:
+  name: polar_heuristic
+  initial_side: 1
+  commitment_s: 20
+  layline_margin_s: 9

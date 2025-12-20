@@ -1,0 +1,13 @@
+name: stochastic-smoke
+stage: development
+root_seed: 20261003
+world:
+  family: ou
+sensor:
+  information_set: noisy_local_known_current
+  direction_noise_deg: 6
+  speed_noise_m_s: 0.35
+  latency_s: 4
+  dropout_probability: 0.05
+forecast:
+  enabled: true
