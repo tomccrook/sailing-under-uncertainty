@@ -1,0 +1,8 @@
+{
+  "version": "planner-replication-v1",
+  "nominal_per_family": 256,
+  "stress_per_family": 32,
+  "workers": 4,
+  "max_wall_s": 7200,
+  "bootstrap_count": 4000
+}
