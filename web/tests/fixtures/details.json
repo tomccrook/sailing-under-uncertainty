@@ -1,0 +1,283 @@
+{
+  "version": 1,
+  "run_id": "browser-contract-fixture",
+  "world_hash": "8c83ecd0a57bde54bd49c1310cc20e7f391023d45be2a482ddbee36acfd283f7",
+  "variant": "B3_risk",
+  "model_hash": null,
+  "config": {
+    "schema_version": 1,
+    "name": "browser-contract-fixture",
+    "stage": "locked",
+    "root_seed": 20261003,
+    "device": "cpu",
+    "retain_failed_episodes": true,
+    "cloud_submission_enabled": false,
+    "boat": {
+      "model_id": "synthetic-displacement-v1",
+      "evidence_level": "synthetic",
+      "class_slot": "illustrative",
+      "no_go_deg": 35.0,
+      "turn_rate_deg_s": 8.0,
+      "acceleration_tau_s": 5.0,
+      "minimum_tack_s": 8.0,
+      "polar_scale": 1.0
+    },
+    "course": {
+      "coordinate_frame": "local_east_north_m",
+      "start_xy_m": [0.0, 0.0],
+      "initial_heading_deg": 50.0,
+      "target_xy_m": [0.0, 1000.0],
+      "finish_radius_m": 10.0,
+      "bounds_xy_m": [-600.0, 600.0, -100.0, 1200.0],
+      "deadline_s": 20.0
+    },
+    "clock": {
+      "physics_dt_s": 1.0,
+      "policy_interval_s": 10.0,
+      "sensor_interval_s": 2.0,
+      "forecast_interval_s": 30.0
+    },
+    "world": {
+      "model_version": "frozen-wind-v1",
+      "family": "constant",
+      "wind_from_deg": 0.0,
+      "wind_speed_m_s": 6.0,
+      "current_ground_m_s": [0.0, 0.0],
+      "grid_dt_s": 2.0,
+      "direction_kappa_s_inv": 0.02,
+      "direction_sigma_deg_sqrt_s": 1.2,
+      "log_speed_kappa_s_inv": 0.03,
+      "log_speed_sigma_sqrt_s": 0.025,
+      "max_direction_deviation_deg": 60.0,
+      "max_speed_m_s": 12.0,
+      "oscillation_amplitude_deg": 15.0,
+      "oscillation_period_s": 240.0,
+      "regime_shift_deg": 20.0,
+      "regime_mean_duration_s": 240.0,
+      "spatial_amplitude_deg": 12.0,
+      "spatial_length_m": 600.0
+    },
+    "sensor": {
+      "information_set": "perfect_local_known_current",
+      "allow_diagnostic_truth": false,
+      "direction_noise_deg": 0.0,
+      "speed_noise_m_s": 0.0,
+      "direction_bias_deg": 0.0,
+      "speed_bias_m_s": 0.0,
+      "latency_s": 0.0,
+      "dropout_probability": 0.0,
+      "max_measurement_age_s": 30.0
+    },
+    "belief": {
+      "model_version": "vector-random-walk-v1",
+      "prior_air_m_s": [0.0, -6.0],
+      "prior_std_m_s": 2.0,
+      "process_variance_m2_s3": 0.015,
+      "instrument_variance_floor_m2_s2": 0.0001
+    },
+    "forecast": {
+      "enabled": false,
+      "model": "mean_reversion",
+      "station_xy_m": [0.0, 500.0],
+      "spatial_resolution_m": 1000.0,
+      "availability_delay_s": 4.0,
+      "horizon_s": 120.0,
+      "point_interval_s": 10.0,
+      "reference_from_deg": 0.0,
+      "reference_speed_m_s": 6.0,
+      "direction_kappa_s_inv": 0.02,
+      "direction_sigma_deg_sqrt_s": 1.2,
+      "speed_kappa_s_inv": 0.03,
+      "speed_sigma_m_s_sqrt_s": 0.15,
+      "station_direction_noise_deg": 2.0,
+      "station_speed_noise_m_s": 0.15,
+      "direction_bias_deg": 0.0,
+      "speed_bias_m_s": 0.0,
+      "uncertainty_scale": 1.0
+    },
+    "policy": {
+      "name": "scenario_mpc",
+      "wind_input": "raw",
+      "deterministic_sensor_model": "expected",
+      "planning_horizon_s": 10.0,
+      "scenario_count": 2,
+      "risk_lambda": 0.25,
+      "cvar_alpha": 0.95,
+      "failure_cost_s": 2400.0,
+      "initial_side": 1,
+      "commitment_s": 20.0,
+      "layline_margin_s": 9.0,
+      "direct_approach_m": 100.0,
+      "boundary_guard_s": 0.0
+    }
+  },
+  "decisions": [
+    {
+      "elapsed_s": 0.0,
+      "observation": {
+        "elapsed_s": 0.0,
+        "position_xy_m": [0.0, 0.0],
+        "heading_rad": 0.8726646259971647,
+        "speed_water_m_s": 0.0,
+        "target_xy_m": [0.0, 1000.0],
+        "remaining_s": 20.0,
+        "bounds_xy_m": [-600.0, 600.0, -100.0, 1200.0],
+        "wind_air_m_s": [-0.0, -6.0],
+        "known_current_m_s": [0.0, 0.0],
+        "measurement_time_s": 0.0,
+        "measurement_valid": true,
+        "manoeuvre_active": false,
+        "previous_action_rad": 0.8726646259971647,
+        "information_set": "perfect_local_known_current",
+        "measurement_available_s": 0.0,
+        "latest_sensor_dropout": false,
+        "belief": null,
+        "forecast": null,
+        "executed_target_rad": 0.8726646259971647,
+        "manoeuvre_remaining_s": 0.0
+      },
+      "action": {
+        "target_heading_rad": 0.8726646259971647
+      },
+      "executed_target_rad": 0.8726646259971647,
+      "compute_s": 0.005030374974012375,
+      "planning": {
+        "candidates": [
+          {
+            "heading_rad": -0.7853981633974483,
+            "sample_costs_s": [509.8257448769116, 504.3594769795916],
+            "mean_s": 507.0926109282516,
+            "cvar_s": 509.8257448769116,
+            "objective_s": 507.7758944154166
+          },
+          {
+            "heading_rad": -0.8726646259971647,
+            "sample_costs_s": [510.4507448769116, 504.3594769795916],
+            "mean_s": 507.4051109282516,
+            "cvar_s": 510.4507448769116,
+            "objective_s": 508.1665194154166
+          },
+          {
+            "heading_rad": -1.0471975511965974,
+            "sample_costs_s": [511.7007448769116, 508.1094769795916],
+            "mean_s": 509.9051109282516,
+            "cvar_s": 511.7007448769116,
+            "objective_s": 510.3540194154166
+          },
+          {
+            "heading_rad": 0.7853981633974483,
+            "sample_costs_s": [504.84789647363255, 501.6773289459476],
+            "mean_s": 503.26261270979006,
+            "cvar_s": 504.84789647363255,
+            "objective_s": 503.65893365075067
+          },
+          {
+            "heading_rad": 0.8726646259971647,
+            "sample_costs_s": [504.3141805720413, 502.13674664658413],
+            "mean_s": 503.2254636093127,
+            "cvar_s": 504.3141805720413,
+            "objective_s": 503.49764284999486
+          },
+          {
+            "heading_rad": 1.0471975511965974,
+            "sample_costs_s": [504.5607136749045, 503.30612160875035],
+            "mean_s": 503.9334176418274,
+            "cvar_s": 504.5607136749045,
+            "objective_s": 504.0902416500967
+          }
+        ],
+        "selected_index": 4,
+        "conditional_paths_hash": "17d580dc0e602ae135a56d8a47314a63bb824969f275f46c3f73121089d84664",
+        "planner_tick": 0,
+        "sample_count": 2,
+        "horizon_s": 10.0,
+        "shared_first_action": true,
+        "recourse": "delayed-noisy-raw-heuristic-v1"
+      }
+    },
+    {
+      "elapsed_s": 10.0,
+      "observation": {
+        "elapsed_s": 10.0,
+        "position_xy_m": [13.915476556805089, 11.67647124647124],
+        "heading_rad": 0.8726646259971647,
+        "speed_water_m_s": 2.766927093642839,
+        "target_xy_m": [0.0, 1000.0],
+        "remaining_s": 10.0,
+        "bounds_xy_m": [-600.0, 600.0, -100.0, 1200.0],
+        "wind_air_m_s": [-0.0, -6.0],
+        "known_current_m_s": [0.0, 0.0],
+        "measurement_time_s": 10.0,
+        "measurement_valid": true,
+        "manoeuvre_active": false,
+        "previous_action_rad": 0.8726646259971647,
+        "information_set": "perfect_local_known_current",
+        "measurement_available_s": 10.0,
+        "latest_sensor_dropout": false,
+        "belief": null,
+        "forecast": null,
+        "executed_target_rad": 0.8726646259971647,
+        "manoeuvre_remaining_s": 0.0
+      },
+      "action": {
+        "target_heading_rad": -0.7853981633974483
+      },
+      "executed_target_rad": -0.7853981633974483,
+      "compute_s": 0.000951291061937809,
+      "planning": {
+        "candidates": [
+          {
+            "heading_rad": -0.7853981633974483,
+            "sample_costs_s": [2400.0, 2400.0],
+            "mean_s": 2400.0,
+            "cvar_s": 2400.0,
+            "objective_s": 2400.0
+          },
+          {
+            "heading_rad": -0.8726646259971647,
+            "sample_costs_s": [2400.0, 2400.0],
+            "mean_s": 2400.0,
+            "cvar_s": 2400.0,
+            "objective_s": 2400.0
+          },
+          {
+            "heading_rad": -1.0471975511965974,
+            "sample_costs_s": [2400.0, 2400.0],
+            "mean_s": 2400.0,
+            "cvar_s": 2400.0,
+            "objective_s": 2400.0
+          },
+          {
+            "heading_rad": 0.7853981633974483,
+            "sample_costs_s": [2400.0, 2400.0],
+            "mean_s": 2400.0,
+            "cvar_s": 2400.0,
+            "objective_s": 2400.0
+          },
+          {
+            "heading_rad": 0.8726646259971647,
+            "sample_costs_s": [2400.0, 2400.0],
+            "mean_s": 2400.0,
+            "cvar_s": 2400.0,
+            "objective_s": 2400.0
+          },
+          {
+            "heading_rad": 1.0471975511965974,
+            "sample_costs_s": [2400.0, 2400.0],
+            "mean_s": 2400.0,
+            "cvar_s": 2400.0,
+            "objective_s": 2400.0
+          }
+        ],
+        "selected_index": 0,
+        "conditional_paths_hash": "44def27785965fc93012da32483686fd4d05c66cadc8b78c061de9664ef36afa",
+        "planner_tick": 1,
+        "sample_count": 2,
+        "horizon_s": 10.0,
+        "shared_first_action": true,
+        "recourse": "delayed-noisy-raw-heuristic-v1"
+      }
+    }
+  ],
+  "probabilities": []
+}

@@ -1,0 +1,1491 @@
+{
+  "$defs": {
+    "Action": {
+      "additionalProperties": false,
+      "properties": {
+        "target_heading_rad": {
+          "title": "Target Heading Rad",
+          "type": "number"
+        }
+      },
+      "required": [
+        "target_heading_rad"
+      ],
+      "title": "Action",
+      "type": "object"
+    },
+    "BeliefConfig": {
+      "additionalProperties": false,
+      "properties": {
+        "model_version": {
+          "const": "vector-random-walk-v1",
+          "default": "vector-random-walk-v1",
+          "title": "Model Version",
+          "type": "string"
+        },
+        "prior_air_m_s": {
+          "default": [
+            0.0,
+            -6.0
+          ],
+          "maxItems": 2,
+          "minItems": 2,
+          "prefixItems": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "title": "Prior Air M S",
+          "type": "array"
+        },
+        "prior_std_m_s": {
+          "default": 2.0,
+          "exclusiveMinimum": 0,
+          "title": "Prior Std M S",
+          "type": "number"
+        },
+        "process_variance_m2_s3": {
+          "default": 0.015,
+          "minimum": 0,
+          "title": "Process Variance M2 S3",
+          "type": "number"
+        },
+        "instrument_variance_floor_m2_s2": {
+          "default": 0.0001,
+          "exclusiveMinimum": 0,
+          "title": "Instrument Variance Floor M2 S2",
+          "type": "number"
+        }
+      },
+      "title": "BeliefConfig",
+      "type": "object"
+    },
+    "BoatConfig": {
+      "additionalProperties": false,
+      "properties": {
+        "model_id": {
+          "const": "synthetic-displacement-v1",
+          "default": "synthetic-displacement-v1",
+          "title": "Model Id",
+          "type": "string"
+        },
+        "evidence_level": {
+          "const": "synthetic",
+          "default": "synthetic",
+          "title": "Evidence Level",
+          "type": "string"
+        },
+        "class_slot": {
+          "default": "illustrative",
+          "enum": [
+            "illustrative",
+            "mirror_uncalibrated"
+          ],
+          "title": "Class Slot",
+          "type": "string"
+        },
+        "no_go_deg": {
+          "default": 35.0,
+          "exclusiveMaximum": 90,
+          "exclusiveMinimum": 0,
+          "title": "No Go Deg",
+          "type": "number"
+        },
+        "turn_rate_deg_s": {
+          "default": 8.0,
+          "exclusiveMinimum": 0,
+          "title": "Turn Rate Deg S",
+          "type": "number"
+        },
+        "acceleration_tau_s": {
+          "default": 5.0,
+          "exclusiveMinimum": 0,
+          "title": "Acceleration Tau S",
+          "type": "number"
+        },
+        "minimum_tack_s": {
+          "default": 8.0,
+          "exclusiveMinimum": 0,
+          "title": "Minimum Tack S",
+          "type": "number"
+        },
+        "polar_scale": {
+          "default": 1.0,
+          "exclusiveMinimum": 0,
+          "title": "Polar Scale",
+          "type": "number"
+        }
+      },
+      "title": "BoatConfig",
+      "type": "object"
+    },
+    "Candidate": {
+      "additionalProperties": false,
+      "properties": {
+        "heading_rad": {
+          "title": "Heading Rad",
+          "type": "number"
+        },
+        "sample_costs_s": {
+          "items": {
+            "type": "number"
+          },
+          "maxItems": 64,
+          "minItems": 1,
+          "title": "Sample Costs S",
+          "type": "array"
+        },
+        "mean_s": {
+          "minimum": 0,
+          "title": "Mean S",
+          "type": "number"
+        },
+        "cvar_s": {
+          "minimum": 0,
+          "title": "Cvar S",
+          "type": "number"
+        },
+        "objective_s": {
+          "minimum": 0,
+          "title": "Objective S",
+          "type": "number"
+        }
+      },
+      "required": [
+        "heading_rad",
+        "sample_costs_s",
+        "mean_s",
+        "cvar_s",
+        "objective_s"
+      ],
+      "title": "Candidate",
+      "type": "object"
+    },
+    "ClockConfig": {
+      "additionalProperties": false,
+      "properties": {
+        "physics_dt_s": {
+          "default": 1.0,
+          "exclusiveMinimum": 0,
+          "title": "Physics Dt S",
+          "type": "number"
+        },
+        "policy_interval_s": {
+          "default": 10.0,
+          "exclusiveMinimum": 0,
+          "title": "Policy Interval S",
+          "type": "number"
+        },
+        "sensor_interval_s": {
+          "default": 2.0,
+          "exclusiveMinimum": 0,
+          "title": "Sensor Interval S",
+          "type": "number"
+        },
+        "forecast_interval_s": {
+          "default": 30.0,
+          "exclusiveMinimum": 0,
+          "title": "Forecast Interval S",
+          "type": "number"
+        }
+      },
+      "title": "ClockConfig",
+      "type": "object"
+    },
+    "CourseConfig": {
+      "additionalProperties": false,
+      "properties": {
+        "coordinate_frame": {
+          "const": "local_east_north_m",
+          "default": "local_east_north_m",
+          "title": "Coordinate Frame",
+          "type": "string"
+        },
+        "start_xy_m": {
+          "default": [
+            0.0,
+            0.0
+          ],
+          "maxItems": 2,
+          "minItems": 2,
+          "prefixItems": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "title": "Start Xy M",
+          "type": "array"
+        },
+        "initial_heading_deg": {
+          "default": 50.0,
+          "title": "Initial Heading Deg",
+          "type": "number"
+        },
+        "target_xy_m": {
+          "default": [
+            0.0,
+            1000.0
+          ],
+          "maxItems": 2,
+          "minItems": 2,
+          "prefixItems": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "title": "Target Xy M",
+          "type": "array"
+        },
+        "finish_radius_m": {
+          "default": 10.0,
+          "exclusiveMinimum": 0,
+          "title": "Finish Radius M",
+          "type": "number"
+        },
+        "bounds_xy_m": {
+          "default": [
+            -600.0,
+            600.0,
+            -100.0,
+            1200.0
+          ],
+          "maxItems": 4,
+          "minItems": 4,
+          "prefixItems": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "title": "Bounds Xy M",
+          "type": "array"
+        },
+        "deadline_s": {
+          "default": 1800.0,
+          "exclusiveMinimum": 0,
+          "title": "Deadline S",
+          "type": "number"
+        }
+      },
+      "title": "CourseConfig",
+      "type": "object"
+    },
+    "Decision": {
+      "additionalProperties": false,
+      "properties": {
+        "elapsed_s": {
+          "minimum": 0,
+          "title": "Elapsed S",
+          "type": "number"
+        },
+        "observation": {
+          "$ref": "#/$defs/Observation"
+        },
+        "action": {
+          "$ref": "#/$defs/Action"
+        },
+        "executed_target_rad": {
+          "title": "Executed Target Rad",
+          "type": "number"
+        },
+        "compute_s": {
+          "minimum": 0,
+          "title": "Compute S",
+          "type": "number"
+        },
+        "planning": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Planning"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "elapsed_s",
+        "observation",
+        "action",
+        "executed_target_rad",
+        "compute_s"
+      ],
+      "title": "Decision",
+      "type": "object"
+    },
+    "ExperimentConfig": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": 1,
+          "default": 1,
+          "title": "Schema Version",
+          "type": "integer"
+        },
+        "name": {
+          "default": "deterministic-smoke",
+          "title": "Name",
+          "type": "string"
+        },
+        "stage": {
+          "default": "fixture",
+          "enum": [
+            "fixture",
+            "development",
+            "locked"
+          ],
+          "title": "Stage",
+          "type": "string"
+        },
+        "root_seed": {
+          "default": 20261003,
+          "minimum": 0,
+          "title": "Root Seed",
+          "type": "integer"
+        },
+        "device": {
+          "const": "cpu",
+          "default": "cpu",
+          "title": "Device",
+          "type": "string"
+        },
+        "retain_failed_episodes": {
+          "const": true,
+          "default": true,
+          "title": "Retain Failed Episodes",
+          "type": "boolean"
+        },
+        "cloud_submission_enabled": {
+          "const": false,
+          "default": false,
+          "title": "Cloud Submission Enabled",
+          "type": "boolean"
+        },
+        "boat": {
+          "$ref": "#/$defs/BoatConfig",
+          "default": {
+            "model_id": "synthetic-displacement-v1",
+            "evidence_level": "synthetic",
+            "class_slot": "illustrative",
+            "no_go_deg": 35.0,
+            "turn_rate_deg_s": 8.0,
+            "acceleration_tau_s": 5.0,
+            "minimum_tack_s": 8.0,
+            "polar_scale": 1.0
+          }
+        },
+        "course": {
+          "$ref": "#/$defs/CourseConfig",
+          "default": {
+            "coordinate_frame": "local_east_north_m",
+            "start_xy_m": [
+              0.0,
+              0.0
+            ],
+            "initial_heading_deg": 50.0,
+            "target_xy_m": [
+              0.0,
+              1000.0
+            ],
+            "finish_radius_m": 10.0,
+            "bounds_xy_m": [
+              -600.0,
+              600.0,
+              -100.0,
+              1200.0
+            ],
+            "deadline_s": 1800.0
+          }
+        },
+        "clock": {
+          "$ref": "#/$defs/ClockConfig",
+          "default": {
+            "physics_dt_s": 1.0,
+            "policy_interval_s": 10.0,
+            "sensor_interval_s": 2.0,
+            "forecast_interval_s": 30.0
+          }
+        },
+        "world": {
+          "$ref": "#/$defs/WorldConfig",
+          "default": {
+            "model_version": "frozen-wind-v1",
+            "family": "constant",
+            "wind_from_deg": 0.0,
+            "wind_speed_m_s": 6.0,
+            "current_ground_m_s": [
+              0.0,
+              0.0
+            ],
+            "grid_dt_s": 2.0,
+            "direction_kappa_s_inv": 0.02,
+            "direction_sigma_deg_sqrt_s": 1.2,
+            "log_speed_kappa_s_inv": 0.03,
+            "log_speed_sigma_sqrt_s": 0.025,
+            "max_direction_deviation_deg": 60.0,
+            "max_speed_m_s": 12.0,
+            "oscillation_amplitude_deg": 15.0,
+            "oscillation_period_s": 240.0,
+            "regime_shift_deg": 20.0,
+            "regime_mean_duration_s": 240.0,
+            "spatial_amplitude_deg": 12.0,
+            "spatial_length_m": 600.0
+          }
+        },
+        "sensor": {
+          "$ref": "#/$defs/SensorConfig",
+          "default": {
+            "information_set": "perfect_local_known_current",
+            "allow_diagnostic_truth": false,
+            "direction_noise_deg": 0.0,
+            "speed_noise_m_s": 0.0,
+            "direction_bias_deg": 0.0,
+            "speed_bias_m_s": 0.0,
+            "latency_s": 0.0,
+            "dropout_probability": 0.0,
+            "max_measurement_age_s": 30.0
+          }
+        },
+        "belief": {
+          "$ref": "#/$defs/BeliefConfig",
+          "default": {
+            "model_version": "vector-random-walk-v1",
+            "prior_air_m_s": [
+              0.0,
+              -6.0
+            ],
+            "prior_std_m_s": 2.0,
+            "process_variance_m2_s3": 0.015,
+            "instrument_variance_floor_m2_s2": 0.0001
+          }
+        },
+        "forecast": {
+          "$ref": "#/$defs/ForecastConfig",
+          "default": {
+            "enabled": false,
+            "model": "mean_reversion",
+            "station_xy_m": [
+              0.0,
+              500.0
+            ],
+            "spatial_resolution_m": 1000.0,
+            "availability_delay_s": 4.0,
+            "horizon_s": 120.0,
+            "point_interval_s": 10.0,
+            "reference_from_deg": 0.0,
+            "reference_speed_m_s": 6.0,
+            "direction_kappa_s_inv": 0.02,
+            "direction_sigma_deg_sqrt_s": 1.2,
+            "speed_kappa_s_inv": 0.03,
+            "speed_sigma_m_s_sqrt_s": 0.15,
+            "station_direction_noise_deg": 2.0,
+            "station_speed_noise_m_s": 0.15,
+            "direction_bias_deg": 0.0,
+            "speed_bias_m_s": 0.0,
+            "uncertainty_scale": 1.0
+          }
+        },
+        "policy": {
+          "$ref": "#/$defs/PolicyConfig",
+          "default": {
+            "name": "polar_heuristic",
+            "wind_input": "raw",
+            "deterministic_sensor_model": "expected",
+            "planning_horizon_s": 60.0,
+            "scenario_count": 8,
+            "risk_lambda": 0.25,
+            "cvar_alpha": 0.95,
+            "failure_cost_s": 2400.0,
+            "initial_side": 1,
+            "commitment_s": 20.0,
+            "layline_margin_s": 9.0,
+            "direct_approach_m": 100.0,
+            "boundary_guard_s": 0.0
+          }
+        }
+      },
+      "title": "ExperimentConfig",
+      "type": "object"
+    },
+    "ForecastConfig": {
+      "additionalProperties": false,
+      "properties": {
+        "enabled": {
+          "default": false,
+          "title": "Enabled",
+          "type": "boolean"
+        },
+        "model": {
+          "default": "mean_reversion",
+          "enum": [
+            "persistence",
+            "mean_reversion"
+          ],
+          "title": "Model",
+          "type": "string"
+        },
+        "station_xy_m": {
+          "default": [
+            0.0,
+            500.0
+          ],
+          "maxItems": 2,
+          "minItems": 2,
+          "prefixItems": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "title": "Station Xy M",
+          "type": "array"
+        },
+        "spatial_resolution_m": {
+          "default": 1000.0,
+          "exclusiveMinimum": 0,
+          "title": "Spatial Resolution M",
+          "type": "number"
+        },
+        "availability_delay_s": {
+          "default": 4.0,
+          "minimum": 0,
+          "title": "Availability Delay S",
+          "type": "number"
+        },
+        "horizon_s": {
+          "default": 120.0,
+          "exclusiveMinimum": 0,
+          "title": "Horizon S",
+          "type": "number"
+        },
+        "point_interval_s": {
+          "default": 10.0,
+          "exclusiveMinimum": 0,
+          "title": "Point Interval S",
+          "type": "number"
+        },
+        "reference_from_deg": {
+          "default": 0.0,
+          "title": "Reference From Deg",
+          "type": "number"
+        },
+        "reference_speed_m_s": {
+          "default": 6.0,
+          "minimum": 0,
+          "title": "Reference Speed M S",
+          "type": "number"
+        },
+        "direction_kappa_s_inv": {
+          "default": 0.02,
+          "exclusiveMinimum": 0,
+          "title": "Direction Kappa S Inv",
+          "type": "number"
+        },
+        "direction_sigma_deg_sqrt_s": {
+          "default": 1.2,
+          "minimum": 0,
+          "title": "Direction Sigma Deg Sqrt S",
+          "type": "number"
+        },
+        "speed_kappa_s_inv": {
+          "default": 0.03,
+          "exclusiveMinimum": 0,
+          "title": "Speed Kappa S Inv",
+          "type": "number"
+        },
+        "speed_sigma_m_s_sqrt_s": {
+          "default": 0.15,
+          "minimum": 0,
+          "title": "Speed Sigma M S Sqrt S",
+          "type": "number"
+        },
+        "station_direction_noise_deg": {
+          "default": 2.0,
+          "minimum": 0,
+          "title": "Station Direction Noise Deg",
+          "type": "number"
+        },
+        "station_speed_noise_m_s": {
+          "default": 0.15,
+          "minimum": 0,
+          "title": "Station Speed Noise M S",
+          "type": "number"
+        },
+        "direction_bias_deg": {
+          "default": 0.0,
+          "title": "Direction Bias Deg",
+          "type": "number"
+        },
+        "speed_bias_m_s": {
+          "default": 0.0,
+          "title": "Speed Bias M S",
+          "type": "number"
+        },
+        "uncertainty_scale": {
+          "default": 1.0,
+          "exclusiveMinimum": 0,
+          "title": "Uncertainty Scale",
+          "type": "number"
+        }
+      },
+      "title": "ForecastConfig",
+      "type": "object"
+    },
+    "ForecastPacket": {
+      "additionalProperties": false,
+      "properties": {
+        "issued_s": {
+          "minimum": 0,
+          "title": "Issued S",
+          "type": "number"
+        },
+        "available_s": {
+          "minimum": 0,
+          "title": "Available S",
+          "type": "number"
+        },
+        "horizon_s": {
+          "exclusiveMinimum": 0,
+          "title": "Horizon S",
+          "type": "number"
+        },
+        "spatial_resolution_m": {
+          "exclusiveMinimum": 0,
+          "title": "Spatial Resolution M",
+          "type": "number"
+        },
+        "station_xy_m": {
+          "maxItems": 2,
+          "minItems": 2,
+          "prefixItems": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "title": "Station Xy M",
+          "type": "array"
+        },
+        "model": {
+          "enum": [
+            "persistence",
+            "mean_reversion"
+          ],
+          "title": "Model",
+          "type": "string"
+        },
+        "distribution": {
+          "const": "local-angle-speed-gaussian-v1",
+          "default": "local-angle-speed-gaussian-v1",
+          "title": "Distribution",
+          "type": "string"
+        },
+        "points": {
+          "items": {
+            "$ref": "#/$defs/ForecastPoint"
+          },
+          "title": "Points",
+          "type": "array"
+        }
+      },
+      "required": [
+        "issued_s",
+        "available_s",
+        "horizon_s",
+        "spatial_resolution_m",
+        "station_xy_m",
+        "model",
+        "points"
+      ],
+      "title": "ForecastPacket",
+      "type": "object"
+    },
+    "ForecastPoint": {
+      "additionalProperties": false,
+      "properties": {
+        "valid_s": {
+          "minimum": 0,
+          "title": "Valid S",
+          "type": "number"
+        },
+        "wind_from_rad": {
+          "title": "Wind From Rad",
+          "type": "number"
+        },
+        "speed_m_s": {
+          "minimum": 0,
+          "title": "Speed M S",
+          "type": "number"
+        },
+        "direction_std_rad": {
+          "exclusiveMinimum": 0,
+          "title": "Direction Std Rad",
+          "type": "number"
+        },
+        "speed_std_m_s": {
+          "exclusiveMinimum": 0,
+          "title": "Speed Std M S",
+          "type": "number"
+        }
+      },
+      "required": [
+        "valid_s",
+        "wind_from_rad",
+        "speed_m_s",
+        "direction_std_rad",
+        "speed_std_m_s"
+      ],
+      "title": "ForecastPoint",
+      "type": "object"
+    },
+    "Observation": {
+      "additionalProperties": false,
+      "properties": {
+        "elapsed_s": {
+          "minimum": 0,
+          "title": "Elapsed S",
+          "type": "number"
+        },
+        "position_xy_m": {
+          "maxItems": 2,
+          "minItems": 2,
+          "prefixItems": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "title": "Position Xy M",
+          "type": "array"
+        },
+        "heading_rad": {
+          "title": "Heading Rad",
+          "type": "number"
+        },
+        "speed_water_m_s": {
+          "minimum": 0,
+          "title": "Speed Water M S",
+          "type": "number"
+        },
+        "target_xy_m": {
+          "maxItems": 2,
+          "minItems": 2,
+          "prefixItems": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "title": "Target Xy M",
+          "type": "array"
+        },
+        "remaining_s": {
+          "minimum": 0,
+          "title": "Remaining S",
+          "type": "number"
+        },
+        "bounds_xy_m": {
+          "default": [
+            -600,
+            600,
+            -100,
+            1200
+          ],
+          "maxItems": 4,
+          "minItems": 4,
+          "prefixItems": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "title": "Bounds Xy M",
+          "type": "array"
+        },
+        "wind_air_m_s": {
+          "maxItems": 2,
+          "minItems": 2,
+          "prefixItems": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "title": "Wind Air M S",
+          "type": "array"
+        },
+        "known_current_m_s": {
+          "maxItems": 2,
+          "minItems": 2,
+          "prefixItems": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "title": "Known Current M S",
+          "type": "array"
+        },
+        "measurement_time_s": {
+          "minimum": 0,
+          "title": "Measurement Time S",
+          "type": "number"
+        },
+        "measurement_valid": {
+          "title": "Measurement Valid",
+          "type": "boolean"
+        },
+        "manoeuvre_active": {
+          "title": "Manoeuvre Active",
+          "type": "boolean"
+        },
+        "previous_action_rad": {
+          "title": "Previous Action Rad",
+          "type": "number"
+        },
+        "information_set": {
+          "default": "perfect_local_known_current",
+          "enum": [
+            "perfect_local_known_current",
+            "noisy_local_known_current"
+          ],
+          "title": "Information Set",
+          "type": "string"
+        },
+        "measurement_available_s": {
+          "default": 0.0,
+          "minimum": 0,
+          "title": "Measurement Available S",
+          "type": "number"
+        },
+        "latest_sensor_dropout": {
+          "default": false,
+          "title": "Latest Sensor Dropout",
+          "type": "boolean"
+        },
+        "belief": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/WindBelief"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "forecast": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ForecastPacket"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "executed_target_rad": {
+          "default": 0.0,
+          "title": "Executed Target Rad",
+          "type": "number"
+        },
+        "manoeuvre_remaining_s": {
+          "default": 0.0,
+          "minimum": 0,
+          "title": "Manoeuvre Remaining S",
+          "type": "number"
+        }
+      },
+      "required": [
+        "elapsed_s",
+        "position_xy_m",
+        "heading_rad",
+        "speed_water_m_s",
+        "target_xy_m",
+        "remaining_s",
+        "wind_air_m_s",
+        "known_current_m_s",
+        "measurement_time_s",
+        "measurement_valid",
+        "manoeuvre_active",
+        "previous_action_rad"
+      ],
+      "title": "Observation",
+      "type": "object"
+    },
+    "Planning": {
+      "additionalProperties": false,
+      "properties": {
+        "candidates": {
+          "items": {
+            "$ref": "#/$defs/Candidate"
+          },
+          "maxItems": 32,
+          "minItems": 1,
+          "title": "Candidates",
+          "type": "array"
+        },
+        "selected_index": {
+          "minimum": 0,
+          "title": "Selected Index",
+          "type": "integer"
+        },
+        "conditional_paths_hash": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Conditional Paths Hash",
+          "type": "string"
+        },
+        "planner_tick": {
+          "minimum": 0,
+          "title": "Planner Tick",
+          "type": "integer"
+        },
+        "sample_count": {
+          "maximum": 64,
+          "minimum": 1,
+          "title": "Sample Count",
+          "type": "integer"
+        },
+        "horizon_s": {
+          "exclusiveMinimum": 0,
+          "title": "Horizon S",
+          "type": "number"
+        },
+        "shared_first_action": {
+          "const": true,
+          "title": "Shared First Action",
+          "type": "boolean"
+        },
+        "recourse": {
+          "title": "Recourse",
+          "type": "string"
+        }
+      },
+      "required": [
+        "candidates",
+        "selected_index",
+        "conditional_paths_hash",
+        "planner_tick",
+        "sample_count",
+        "horizon_s",
+        "shared_first_action",
+        "recourse"
+      ],
+      "title": "Planning",
+      "type": "object"
+    },
+    "PolicyConfig": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "default": "polar_heuristic",
+          "enum": [
+            "polar_heuristic",
+            "deterministic_mpc",
+            "scenario_mpc"
+          ],
+          "title": "Name",
+          "type": "string"
+        },
+        "wind_input": {
+          "default": "raw",
+          "enum": [
+            "raw",
+            "belief"
+          ],
+          "title": "Wind Input",
+          "type": "string"
+        },
+        "deterministic_sensor_model": {
+          "default": "expected",
+          "enum": [
+            "expected",
+            "sampled"
+          ],
+          "title": "Deterministic Sensor Model",
+          "type": "string"
+        },
+        "planning_horizon_s": {
+          "default": 60.0,
+          "exclusiveMinimum": 0,
+          "title": "Planning Horizon S",
+          "type": "number"
+        },
+        "scenario_count": {
+          "default": 8,
+          "maximum": 128,
+          "minimum": 2,
+          "title": "Scenario Count",
+          "type": "integer"
+        },
+        "risk_lambda": {
+          "default": 0.25,
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Risk Lambda",
+          "type": "number"
+        },
+        "cvar_alpha": {
+          "default": 0.95,
+          "exclusiveMaximum": 1,
+          "exclusiveMinimum": 0,
+          "title": "Cvar Alpha",
+          "type": "number"
+        },
+        "failure_cost_s": {
+          "default": 2400.0,
+          "exclusiveMinimum": 0,
+          "title": "Failure Cost S",
+          "type": "number"
+        },
+        "initial_side": {
+          "default": 1,
+          "enum": [
+            -1,
+            1
+          ],
+          "title": "Initial Side",
+          "type": "integer"
+        },
+        "commitment_s": {
+          "default": 20.0,
+          "minimum": 0,
+          "title": "Commitment S",
+          "type": "number"
+        },
+        "layline_margin_s": {
+          "default": 9.0,
+          "minimum": 0,
+          "title": "Layline Margin S",
+          "type": "number"
+        },
+        "direct_approach_m": {
+          "default": 100.0,
+          "minimum": 0,
+          "title": "Direct Approach M",
+          "type": "number"
+        },
+        "boundary_guard_s": {
+          "default": 0.0,
+          "minimum": 0,
+          "title": "Boundary Guard S",
+          "type": "number"
+        }
+      },
+      "title": "PolicyConfig",
+      "type": "object"
+    },
+    "Probability": {
+      "additionalProperties": false,
+      "properties": {
+        "elapsed_s": {
+          "minimum": 0,
+          "title": "Elapsed S",
+          "type": "number"
+        },
+        "headings_rad": {
+          "items": {
+            "type": "number"
+          },
+          "maxItems": 8,
+          "minItems": 8,
+          "title": "Headings Rad",
+          "type": "array"
+        },
+        "probabilities": {
+          "items": {
+            "type": "number"
+          },
+          "maxItems": 8,
+          "minItems": 8,
+          "title": "Probabilities",
+          "type": "array"
+        },
+        "selected_index": {
+          "exclusiveMaximum": 8,
+          "minimum": 0,
+          "title": "Selected Index",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "elapsed_s",
+        "headings_rad",
+        "probabilities",
+        "selected_index"
+      ],
+      "title": "Probability",
+      "type": "object"
+    },
+    "SensorConfig": {
+      "additionalProperties": false,
+      "properties": {
+        "information_set": {
+          "default": "perfect_local_known_current",
+          "enum": [
+            "perfect_local_known_current",
+            "noisy_local_known_current"
+          ],
+          "title": "Information Set",
+          "type": "string"
+        },
+        "allow_diagnostic_truth": {
+          "const": false,
+          "default": false,
+          "title": "Allow Diagnostic Truth",
+          "type": "boolean"
+        },
+        "direction_noise_deg": {
+          "default": 0.0,
+          "minimum": 0,
+          "title": "Direction Noise Deg",
+          "type": "number"
+        },
+        "speed_noise_m_s": {
+          "default": 0.0,
+          "minimum": 0,
+          "title": "Speed Noise M S",
+          "type": "number"
+        },
+        "direction_bias_deg": {
+          "default": 0.0,
+          "title": "Direction Bias Deg",
+          "type": "number"
+        },
+        "speed_bias_m_s": {
+          "default": 0.0,
+          "title": "Speed Bias M S",
+          "type": "number"
+        },
+        "latency_s": {
+          "default": 0.0,
+          "minimum": 0,
+          "title": "Latency S",
+          "type": "number"
+        },
+        "dropout_probability": {
+          "default": 0.0,
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Dropout Probability",
+          "type": "number"
+        },
+        "max_measurement_age_s": {
+          "default": 30.0,
+          "exclusiveMinimum": 0,
+          "title": "Max Measurement Age S",
+          "type": "number"
+        }
+      },
+      "title": "SensorConfig",
+      "type": "object"
+    },
+    "WindBelief": {
+      "additionalProperties": false,
+      "properties": {
+        "elapsed_s": {
+          "minimum": 0,
+          "title": "Elapsed S",
+          "type": "number"
+        },
+        "mean_air_m_s": {
+          "maxItems": 2,
+          "minItems": 2,
+          "prefixItems": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "title": "Mean Air M S",
+          "type": "array"
+        },
+        "covariance_m2_s2": {
+          "maxItems": 2,
+          "minItems": 2,
+          "prefixItems": [
+            {
+              "maxItems": 2,
+              "minItems": 2,
+              "prefixItems": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "number"
+                }
+              ],
+              "type": "array"
+            },
+            {
+              "maxItems": 2,
+              "minItems": 2,
+              "prefixItems": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "number"
+                }
+              ],
+              "type": "array"
+            }
+          ],
+          "title": "Covariance M2 S2",
+          "type": "array"
+        },
+        "model_version": {
+          "const": "vector-random-walk-v1",
+          "default": "vector-random-walk-v1",
+          "title": "Model Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "elapsed_s",
+        "mean_air_m_s",
+        "covariance_m2_s2"
+      ],
+      "title": "WindBelief",
+      "type": "object"
+    },
+    "WorldConfig": {
+      "additionalProperties": false,
+      "properties": {
+        "model_version": {
+          "const": "frozen-wind-v1",
+          "default": "frozen-wind-v1",
+          "title": "Model Version",
+          "type": "string"
+        },
+        "family": {
+          "default": "constant",
+          "enum": [
+            "constant",
+            "oscillating",
+            "ou",
+            "regime",
+            "spatial"
+          ],
+          "title": "Family",
+          "type": "string"
+        },
+        "wind_from_deg": {
+          "default": 0.0,
+          "title": "Wind From Deg",
+          "type": "number"
+        },
+        "wind_speed_m_s": {
+          "default": 6.0,
+          "minimum": 0,
+          "title": "Wind Speed M S",
+          "type": "number"
+        },
+        "current_ground_m_s": {
+          "default": [
+            0.0,
+            0.0
+          ],
+          "maxItems": 2,
+          "minItems": 2,
+          "prefixItems": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "title": "Current Ground M S",
+          "type": "array"
+        },
+        "grid_dt_s": {
+          "default": 2.0,
+          "exclusiveMinimum": 0,
+          "title": "Grid Dt S",
+          "type": "number"
+        },
+        "direction_kappa_s_inv": {
+          "default": 0.02,
+          "exclusiveMinimum": 0,
+          "title": "Direction Kappa S Inv",
+          "type": "number"
+        },
+        "direction_sigma_deg_sqrt_s": {
+          "default": 1.2,
+          "minimum": 0,
+          "title": "Direction Sigma Deg Sqrt S",
+          "type": "number"
+        },
+        "log_speed_kappa_s_inv": {
+          "default": 0.03,
+          "exclusiveMinimum": 0,
+          "title": "Log Speed Kappa S Inv",
+          "type": "number"
+        },
+        "log_speed_sigma_sqrt_s": {
+          "default": 0.025,
+          "minimum": 0,
+          "title": "Log Speed Sigma Sqrt S",
+          "type": "number"
+        },
+        "max_direction_deviation_deg": {
+          "default": 60.0,
+          "exclusiveMinimum": 0,
+          "maximum": 80,
+          "title": "Max Direction Deviation Deg",
+          "type": "number"
+        },
+        "max_speed_m_s": {
+          "default": 12.0,
+          "exclusiveMinimum": 0,
+          "title": "Max Speed M S",
+          "type": "number"
+        },
+        "oscillation_amplitude_deg": {
+          "default": 15.0,
+          "minimum": 0,
+          "title": "Oscillation Amplitude Deg",
+          "type": "number"
+        },
+        "oscillation_period_s": {
+          "default": 240.0,
+          "exclusiveMinimum": 0,
+          "title": "Oscillation Period S",
+          "type": "number"
+        },
+        "regime_shift_deg": {
+          "default": 20.0,
+          "minimum": 0,
+          "title": "Regime Shift Deg",
+          "type": "number"
+        },
+        "regime_mean_duration_s": {
+          "default": 240.0,
+          "exclusiveMinimum": 0,
+          "title": "Regime Mean Duration S",
+          "type": "number"
+        },
+        "spatial_amplitude_deg": {
+          "default": 12.0,
+          "minimum": 0,
+          "title": "Spatial Amplitude Deg",
+          "type": "number"
+        },
+        "spatial_length_m": {
+          "default": 600.0,
+          "exclusiveMinimum": 0,
+          "title": "Spatial Length M",
+          "type": "number"
+        }
+      },
+      "title": "WorldConfig",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "version": {
+      "const": 1,
+      "default": 1,
+      "title": "Version",
+      "type": "integer"
+    },
+    "run_id": {
+      "title": "Run Id",
+      "type": "string"
+    },
+    "world_hash": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "World Hash",
+      "type": "string"
+    },
+    "variant": {
+      "title": "Variant",
+      "type": "string"
+    },
+    "model_hash": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Model Hash"
+    },
+    "config": {
+      "$ref": "#/$defs/ExperimentConfig"
+    },
+    "decisions": {
+      "items": {
+        "$ref": "#/$defs/Decision"
+      },
+      "maxItems": 500,
+      "minItems": 1,
+      "title": "Decisions",
+      "type": "array"
+    },
+    "probabilities": {
+      "items": {
+        "$ref": "#/$defs/Probability"
+      },
+      "maxItems": 500,
+      "title": "Probabilities",
+      "type": "array"
+    }
+  },
+  "required": [
+    "run_id",
+    "world_hash",
+    "variant",
+    "config",
+    "decisions"
+  ],
+  "title": "Details",
+  "type": "object"
+}

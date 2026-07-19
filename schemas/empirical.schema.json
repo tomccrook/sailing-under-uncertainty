@@ -1,0 +1,231 @@
+{
+  "$defs": {
+    "EmpiricalPredictor": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "enum": [
+            "AR1",
+            "persistence",
+            "climatology"
+          ],
+          "title": "Name",
+          "type": "string"
+        },
+        "heldout_pairs": {
+          "minimum": 1,
+          "title": "Heldout Pairs",
+          "type": "integer"
+        },
+        "vector_rmse_m_s": {
+          "minimum": 0,
+          "title": "Vector Rmse M S",
+          "type": "number"
+        },
+        "speed_rmse_m_s": {
+          "minimum": 0,
+          "title": "Speed Rmse M S",
+          "type": "number"
+        },
+        "direction_rmse_deg_at_speed_ge_0_5": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Direction Rmse Deg At Speed Ge 0 5"
+        },
+        "coverage95": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Coverage95",
+          "type": "number"
+        },
+        "gaussian_nll_mean": {
+          "title": "Gaussian Nll Mean",
+          "type": "number"
+        }
+      },
+      "required": [
+        "name",
+        "heldout_pairs",
+        "vector_rmse_m_s",
+        "speed_rmse_m_s",
+        "coverage95",
+        "gaussian_nll_mean"
+      ],
+      "title": "EmpiricalPredictor",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "version": {
+      "const": "recorded-publication-v1",
+      "default": "recorded-publication-v1",
+      "title": "Version",
+      "type": "string"
+    },
+    "evidence_level": {
+      "const": "recorded_GPS_and_buoy_component_validation",
+      "default": "recorded_GPS_and_buoy_component_validation",
+      "title": "Evidence Level",
+      "type": "string"
+    },
+    "registration_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Registration Sha256",
+      "type": "string"
+    },
+    "report_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Report Sha256",
+      "type": "string"
+    },
+    "raw_gps_rows": {
+      "minimum": 1,
+      "title": "Raw Gps Rows",
+      "type": "integer"
+    },
+    "excluded_gps_rows": {
+      "minimum": 0,
+      "title": "Excluded Gps Rows",
+      "type": "integer"
+    },
+    "accepted_gps_rows": {
+      "minimum": 0,
+      "title": "Accepted Gps Rows",
+      "type": "integer"
+    },
+    "rejected_gps_rows": {
+      "minimum": 0,
+      "title": "Rejected Gps Rows",
+      "type": "integer"
+    },
+    "registered_train_identifiers": {
+      "minimum": 1,
+      "title": "Registered Train Identifiers",
+      "type": "integer"
+    },
+    "registered_heldout_identifiers": {
+      "minimum": 1,
+      "title": "Registered Heldout Identifiers",
+      "type": "integer"
+    },
+    "train_voyages": {
+      "minimum": 1,
+      "title": "Train Voyages",
+      "type": "integer"
+    },
+    "heldout_voyages": {
+      "minimum": 1,
+      "title": "Heldout Voyages",
+      "type": "integer"
+    },
+    "projection_heldout_pairs": {
+      "minimum": 1,
+      "title": "Projection Heldout Pairs",
+      "type": "integer"
+    },
+    "projection_heldout_p99_relative": {
+      "minimum": 0,
+      "title": "Projection Heldout P99 Relative",
+      "type": "number"
+    },
+    "projection_gate_passed": {
+      "title": "Projection Gate Passed",
+      "type": "boolean"
+    },
+    "wind_train_days": {
+      "minimum": 1,
+      "title": "Wind Train Days",
+      "type": "integer"
+    },
+    "wind_heldout_days": {
+      "minimum": 1,
+      "title": "Wind Heldout Days",
+      "type": "integer"
+    },
+    "wind_heldout_pairs": {
+      "minimum": 1,
+      "title": "Wind Heldout Pairs",
+      "type": "integer"
+    },
+    "predictors": {
+      "items": {
+        "$ref": "#/$defs/EmpiricalPredictor"
+      },
+      "title": "Predictors",
+      "type": "array"
+    },
+    "vector_rmse_difference_m_s": {
+      "title": "Vector Rmse Difference M S",
+      "type": "number"
+    },
+    "vector_rmse_difference95": {
+      "maxItems": 2,
+      "minItems": 2,
+      "title": "Vector Rmse Difference95",
+      "type": "array",
+      "items": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "number"
+        }
+      ]
+    },
+    "attribution": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "title": "Attribution",
+      "type": "object"
+    },
+    "limitations": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Limitations",
+      "type": "array"
+    },
+    "boat_calibrated": {
+      "const": false,
+      "default": false,
+      "title": "Boat Calibrated",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "registration_sha256",
+    "report_sha256",
+    "raw_gps_rows",
+    "excluded_gps_rows",
+    "accepted_gps_rows",
+    "rejected_gps_rows",
+    "registered_train_identifiers",
+    "registered_heldout_identifiers",
+    "train_voyages",
+    "heldout_voyages",
+    "projection_heldout_pairs",
+    "projection_heldout_p99_relative",
+    "projection_gate_passed",
+    "wind_train_days",
+    "wind_heldout_days",
+    "wind_heldout_pairs",
+    "predictors",
+    "vector_rmse_difference_m_s",
+    "vector_rmse_difference95",
+    "attribution",
+    "limitations"
+  ],
+  "title": "EmpiricalPublication",
+  "type": "object",
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}

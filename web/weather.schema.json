@@ -1,0 +1,277 @@
+{
+  "$defs": {
+    "WeatherRequest": {
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "enum": [
+            "reanalysis",
+            "historical_forecast",
+            "previous_runs",
+            "single_run"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "latitude_deg": {
+          "maximum": 90,
+          "minimum": -90,
+          "title": "Latitude Deg",
+          "type": "number"
+        },
+        "longitude_deg": {
+          "maximum": 180,
+          "minimum": -180,
+          "title": "Longitude Deg",
+          "type": "number"
+        },
+        "model": {
+          "maxLength": 100,
+          "minLength": 1,
+          "pattern": "^[a-z0-9_]+$",
+          "title": "Model",
+          "type": "string"
+        },
+        "model_version": {
+          "default": "not supplied by API; requested model identifier only",
+          "title": "Model Version",
+          "type": "string"
+        },
+        "declared_spatial_resolution_m": {
+          "exclusiveMinimum": 0,
+          "title": "Declared Spatial Resolution M",
+          "type": "number"
+        },
+        "declared_temporal_resolution_s": {
+          "default": 3600,
+          "exclusiveMinimum": 0,
+          "title": "Declared Temporal Resolution S",
+          "type": "number"
+        },
+        "run_initialisation_utc": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Run Initialisation Utc"
+        },
+        "known_available_utc": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Known Available Utc"
+        },
+        "availability_evidence": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Availability Evidence"
+        },
+        "assumed_publication_lag_s": {
+          "default": 28800,
+          "minimum": 0,
+          "title": "Assumed Publication Lag S",
+          "type": "number"
+        },
+        "start_date": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Start Date"
+        },
+        "end_date": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "End Date"
+        },
+        "previous_day": {
+          "default": 1,
+          "maximum": 7,
+          "minimum": 1,
+          "title": "Previous Day",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "kind",
+        "latitude_deg",
+        "longitude_deg",
+        "model",
+        "declared_spatial_resolution_m"
+      ],
+      "title": "WeatherRequest",
+      "type": "object"
+    },
+    "WindPoint": {
+      "additionalProperties": false,
+      "properties": {
+        "valid_utc": {
+          "format": "date-time",
+          "title": "Valid Utc",
+          "type": "string"
+        },
+        "wind_speed_m_s": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Wind Speed M S"
+        },
+        "wind_from_deg": {
+          "anyOf": [
+            {
+              "exclusiveMaximum": 360,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Wind From Deg"
+        },
+        "flags": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Flags",
+          "type": "array"
+        }
+      },
+      "required": ["valid_utc", "wind_speed_m_s", "wind_from_deg"],
+      "title": "WindPoint",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "weather-v1",
+      "default": "weather-v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "source_evidence": {
+      "enum": ["synthetic_fixture", "downloaded_weather"],
+      "title": "Source Evidence",
+      "type": "string"
+    },
+    "request": {
+      "$ref": "#/$defs/WeatherRequest"
+    },
+    "source_url": {
+      "title": "Source Url",
+      "type": "string"
+    },
+    "source_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Source Sha256",
+      "type": "string"
+    },
+    "retrieved_utc": {
+      "format": "date-time",
+      "title": "Retrieved Utc",
+      "type": "string"
+    },
+    "available_utc": {
+      "anyOf": [
+        {
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Available Utc"
+    },
+    "availability": {
+      "enum": ["known", "assumed_lag", "context_only"],
+      "title": "Availability",
+      "type": "string"
+    },
+    "returned_latitude_deg": {
+      "maximum": 90,
+      "minimum": -90,
+      "title": "Returned Latitude Deg",
+      "type": "number"
+    },
+    "returned_longitude_deg": {
+      "maximum": 180,
+      "minimum": -180,
+      "title": "Returned Longitude Deg",
+      "type": "number"
+    },
+    "points": {
+      "items": {
+        "$ref": "#/$defs/WindPoint"
+      },
+      "title": "Points",
+      "type": "array"
+    },
+    "acknowledgement": {
+      "default": "Open-Meteo; upstream model identified in request; data CC BY 4.0",
+      "title": "Acknowledgement",
+      "type": "string"
+    },
+    "limits": {
+      "default": "Regional/hourly broad context; no measured racecourse field or covariance",
+      "title": "Limits",
+      "type": "string"
+    }
+  },
+  "required": [
+    "source_evidence",
+    "request",
+    "source_url",
+    "source_sha256",
+    "retrieved_utc",
+    "available_utc",
+    "availability",
+    "returned_latitude_deg",
+    "returned_longitude_deg",
+    "points"
+  ],
+  "title": "WeatherPacket",
+  "type": "object"
+}

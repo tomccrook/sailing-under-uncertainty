@@ -1,0 +1,129 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": 1,
+      "default": 1,
+      "title": "Schema Version",
+      "type": "integer"
+    },
+    "run_id": {
+      "title": "Run Id",
+      "type": "string"
+    },
+    "config_hash": {
+      "title": "Config Hash",
+      "type": "string"
+    },
+    "code_revision": {
+      "title": "Code Revision",
+      "type": "string"
+    },
+    "dirty_tree": {
+      "title": "Dirty Tree",
+      "type": "boolean"
+    },
+    "source_snapshot_hash": {
+      "title": "Source Snapshot Hash",
+      "type": "string"
+    },
+    "dependencies": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "title": "Dependencies",
+      "type": "object"
+    },
+    "hardware": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "title": "Hardware",
+      "type": "object"
+    },
+    "device": {
+      "const": "cpu",
+      "default": "cpu",
+      "title": "Device",
+      "type": "string"
+    },
+    "scenario_manifest_hash": {
+      "title": "Scenario Manifest Hash",
+      "type": "string"
+    },
+    "training_model_ids": {
+      "default": [],
+      "items": {
+        "type": "string"
+      },
+      "title": "Training Model Ids",
+      "type": "array"
+    },
+    "seed_hierarchy": {
+      "additionalProperties": {
+        "items": {
+          "type": "integer"
+        },
+        "type": "array"
+      },
+      "title": "Seed Hierarchy",
+      "type": "object"
+    },
+    "started_utc": {
+      "title": "Started Utc",
+      "type": "string"
+    },
+    "ended_utc": {
+      "title": "Ended Utc",
+      "type": "string"
+    },
+    "status": {
+      "enum": [
+        "succeeded",
+        "failed"
+      ],
+      "title": "Status",
+      "type": "string"
+    },
+    "artifacts": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "title": "Artifacts",
+      "type": "object"
+    },
+    "warnings": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Warnings",
+      "type": "array"
+    },
+    "parent_comparisons": {
+      "default": [],
+      "items": {
+        "type": "string"
+      },
+      "title": "Parent Comparisons",
+      "type": "array"
+    }
+  },
+  "required": [
+    "run_id",
+    "config_hash",
+    "code_revision",
+    "dirty_tree",
+    "source_snapshot_hash",
+    "dependencies",
+    "hardware",
+    "scenario_manifest_hash",
+    "seed_hierarchy",
+    "started_utc",
+    "ended_utc",
+    "status",
+    "artifacts",
+    "warnings"
+  ],
+  "title": "RunManifest",
+  "type": "object"
+}

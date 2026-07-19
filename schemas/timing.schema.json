@@ -1,0 +1,239 @@
+{
+  "$defs": {
+    "TimingConfig": {
+      "additionalProperties": false,
+      "properties": {
+        "angular_rate_threshold_deg_s": {
+          "default": 2,
+          "exclusiveMinimum": 0,
+          "title": "Angular Rate Threshold Deg S",
+          "type": "number"
+        },
+        "stable_samples": {
+          "default": 3,
+          "minimum": 2,
+          "title": "Stable Samples",
+          "type": "integer"
+        },
+        "min_upwind_angle_deg": {
+          "default": 35,
+          "exclusiveMaximum": 90,
+          "exclusiveMinimum": 0,
+          "title": "Min Upwind Angle Deg",
+          "type": "number"
+        },
+        "max_upwind_angle_deg": {
+          "default": 85,
+          "exclusiveMaximum": 90,
+          "exclusiveMinimum": 0,
+          "title": "Max Upwind Angle Deg",
+          "type": "number"
+        },
+        "max_wind_change_deg": {
+          "default": 10,
+          "exclusiveMinimum": 0,
+          "title": "Max Wind Change Deg",
+          "type": "number"
+        },
+        "bootstrap_seed": {
+          "default": 27001,
+          "minimum": 0,
+          "title": "Bootstrap Seed",
+          "type": "integer"
+        },
+        "bootstrap_replicates": {
+          "default": 2000,
+          "maximum": 100000,
+          "minimum": 100,
+          "title": "Bootstrap Replicates",
+          "type": "integer"
+        }
+      },
+      "title": "TimingConfig",
+      "type": "object"
+    },
+    "Transition": {
+      "additionalProperties": false,
+      "properties": {
+        "session_id": {
+          "title": "Session Id",
+          "type": "string"
+        },
+        "source_sha256": {
+          "title": "Source Sha256",
+          "type": "string"
+        },
+        "day": {
+          "format": "date",
+          "title": "Day",
+          "type": "string"
+        },
+        "start_utc": {
+          "format": "date-time",
+          "title": "Start Utc",
+          "type": "string"
+        },
+        "end_utc": {
+          "format": "date-time",
+          "title": "End Utc",
+          "type": "string"
+        },
+        "duration_s": {
+          "exclusiveMinimum": 0,
+          "title": "Duration S",
+          "type": "number"
+        },
+        "sampling_uncertainty_s": {
+          "exclusiveMinimum": 0,
+          "title": "Sampling Uncertainty S",
+          "type": "number"
+        }
+      },
+      "required": [
+        "session_id",
+        "source_sha256",
+        "day",
+        "start_utc",
+        "end_utc",
+        "duration_s",
+        "sampling_uncertainty_s"
+      ],
+      "title": "Transition",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "timing-v1",
+      "default": "timing-v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "evidence": {
+      "enum": [
+        "synthetic_fixture",
+        "unvalidated_measurement"
+      ],
+      "title": "Evidence",
+      "type": "string"
+    },
+    "quantity": {
+      "const": "observed instrumented upwind heading-transition duration",
+      "default": "observed instrumented upwind heading-transition duration",
+      "title": "Quantity",
+      "type": "string"
+    },
+    "config": {
+      "$ref": "#/$defs/TimingConfig"
+    },
+    "protocol": {
+      "default": "Chronological UTC-day groups; latest two days held out before fitting",
+      "title": "Protocol",
+      "type": "string"
+    },
+    "source_hashes": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Source Hashes",
+      "type": "array"
+    },
+    "split_sha256": {
+      "title": "Split Sha256",
+      "type": "string"
+    },
+    "training_days": {
+      "items": {
+        "format": "date",
+        "type": "string"
+      },
+      "title": "Training Days",
+      "type": "array"
+    },
+    "holdout_days": {
+      "items": {
+        "format": "date",
+        "type": "string"
+      },
+      "title": "Holdout Days",
+      "type": "array"
+    },
+    "transitions": {
+      "items": {
+        "$ref": "#/$defs/Transition"
+      },
+      "title": "Transitions",
+      "type": "array"
+    },
+    "fitted_mean_s": {
+      "title": "Fitted Mean S",
+      "type": "number"
+    },
+    "fitted_mean_day_bootstrap_95_s": {
+      "maxItems": 2,
+      "minItems": 2,
+      "prefixItems": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "number"
+        }
+      ],
+      "title": "Fitted Mean Day Bootstrap 95 S",
+      "type": "array"
+    },
+    "holdout_mae_s": {
+      "title": "Holdout Mae S",
+      "type": "number"
+    },
+    "holdout_mae_day_bootstrap_95_s": {
+      "maxItems": 2,
+      "minItems": 2,
+      "prefixItems": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "number"
+        }
+      ],
+      "title": "Holdout Mae Day Bootstrap 95 S",
+      "type": "array"
+    },
+    "unsupported": {
+      "default": [
+        "polar calibration",
+        "minimum tack time",
+        "speed-loss calibration",
+        "policy efficacy"
+      ],
+      "items": {
+        "type": "string"
+      },
+      "title": "Unsupported",
+      "type": "array"
+    },
+    "limitations": {
+      "default": "Small independent-day counts; sampling bounds are timing resolution, not a confidence interval. Instrument synchronisation and current/wind conventions require domain review.",
+      "title": "Limitations",
+      "type": "string"
+    }
+  },
+  "required": [
+    "evidence",
+    "config",
+    "source_hashes",
+    "split_sha256",
+    "training_days",
+    "holdout_days",
+    "transitions",
+    "fitted_mean_s",
+    "fitted_mean_day_bootstrap_95_s",
+    "holdout_mae_s",
+    "holdout_mae_day_bootstrap_95_s"
+  ],
+  "title": "TimingReport",
+  "type": "object"
+}
