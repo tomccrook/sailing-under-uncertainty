@@ -1,0 +1,21 @@
+{
+  "region": "us-east-1",
+  "checked_utc": "2026-10-03T18:35:30.553004Z",
+  "cpu_usd_per_vcpu_second": 0.000011244,
+  "memory_usd_per_gb_second": 1.235e-6,
+  "ipv4_usd_per_hour": 0.005,
+  "s3_usd_per_gb_month": 0.023,
+  "s3_put_usd_per_request": 5e-6,
+  "s3_get_usd_per_request": 4e-7,
+  "ecr_usd_per_gb_month": 0.1,
+  "logs_ingest_usd_per_gb": 0.5,
+  "logs_store_usd_per_gb_month": 0.03,
+  "sources": {
+    "compute": "https://aws.amazon.com/fargate/pricing/",
+    "ipv4": "https://aws.amazon.com/vpc/pricing/",
+    "s3": "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonS3/current/us-east-1/index.json",
+    "ecr": "https://aws.amazon.com/ecr/pricing/",
+    "logs": "https://aws.amazon.com/cloudwatch/pricing/"
+  },
+  "s3_price_list_sha256": "798f9727bc5102d15d471c5b84c15ed3e20297015330f515a33d5f6a032cc2f1"
+}

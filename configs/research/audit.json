@@ -1,0 +1,6 @@
+{
+  "max_tool_calls": 1000,
+  "max_jobs": 0,
+  "max_reserved_wall_s": 0,
+  "max_episode_tasks": 0
+}

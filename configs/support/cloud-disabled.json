@@ -1,0 +1,12 @@
+{
+  "enabled": false,
+  "authorised_budget_usd": 0.0,
+  "authorisation_reference": "",
+  "expires_utc": null,
+  "approved_cost_sha256": "",
+  "region": "us-east-1",
+  "account_id": "000000000000",
+  "artifact_bucket": "not-configured",
+  "queue_arn": "",
+  "job_definition_arn": ""
+}
