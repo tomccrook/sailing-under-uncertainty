@@ -1,0 +1,12 @@
+FROM python:3.12-slim
+WORKDIR /app
+RUN python -m pip install --no-cache-dir uv==0.12.22
+COPY pyproject.toml uv.lock README.md ./
+COPY src ./src
+COPY configs ./configs
+COPY scripts ./scripts
+RUN uv sync --locked --no-dev --no-editable --cache-dir /tmp/uv-cache
+COPY extensions/support ./extensions/support
+RUN uv sync --project extensions/support --locked --no-dev --no-editable --python /usr/local/bin/python3.12 --cache-dir /tmp/uv-cache
+ENV PATH="/app/.venv/bin:$PATH" MPLCONFIGDIR="/tmp/matplotlib" OMP_NUM_THREADS="1" MKL_NUM_THREADS="1" OPENBLAS_NUM_THREADS="1" AWS_DEFAULT_REGION="us-east-1"
+ENTRYPOINT ["/app/extensions/support/.venv/bin/python", "-m", "sail_support.cloud_worker"]
