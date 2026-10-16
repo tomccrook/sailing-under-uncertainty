@@ -1,0 +1,10 @@
+{
+  "version": "matched-new-family-v1",
+  "nominal_per_family": 256,
+  "new_per_family": 512,
+  "workers": 4,
+  "max_wall_s": 10800,
+  "bootstrap_count": 4000,
+  "validation_matching_tolerance": 0.05,
+  "test_matching_tolerance": 0.10
+}
