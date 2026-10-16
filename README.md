@@ -1,5 +1,7 @@
 # Sailing under uncertainty
 
+[![Tests](https://github.com/tomccrook/sailing-under-uncertainty/actions/workflows/tests.yml/badge.svg)](https://github.com/tomccrook/sailing-under-uncertainty/actions/workflows/tests.yml)
+
 A sailing simulator and policy comparison built around one question: **does looking further ahead help when wind observations are noisy and changing tack costs time?**
 
 [Interactive demo](https://tomcrook.dev/demos/sailing) · [Project study](https://tomcrook.dev/projects/sailing) · [Research report](docs/research-report.md)
