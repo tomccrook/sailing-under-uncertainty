@@ -1,0 +1,404 @@
+{
+  "$defs": {
+    "Frame": {
+      "additionalProperties": false,
+      "properties": {
+        "latitude_deg": {
+          "title": "Latitude Deg",
+          "type": "number"
+        },
+        "longitude_deg": {
+          "title": "Longitude Deg",
+          "type": "number"
+        },
+        "projection": {
+          "const": "WGS84 azimuthal equidistant",
+          "default": "WGS84 azimuthal equidistant",
+          "title": "Projection",
+          "type": "string"
+        },
+        "axes": {
+          "const": "east_m,north_m",
+          "default": "east_m,north_m",
+          "title": "Axes",
+          "type": "string"
+        }
+      },
+      "required": [
+        "latitude_deg",
+        "longitude_deg"
+      ],
+      "title": "Frame",
+      "type": "object"
+    },
+    "ImportConfig": {
+      "additionalProperties": false,
+      "properties": {
+        "nominal_interval_s": {
+          "default": 1,
+          "exclusiveMinimum": 0,
+          "title": "Nominal Interval S",
+          "type": "number"
+        },
+        "gap_s": {
+          "default": 10,
+          "exclusiveMinimum": 0,
+          "title": "Gap S",
+          "type": "number"
+        },
+        "max_ground_speed_m_s": {
+          "default": 15,
+          "exclusiveMinimum": 0,
+          "title": "Max Ground Speed M S",
+          "type": "number"
+        },
+        "max_radius_m": {
+          "default": 100000,
+          "exclusiveMinimum": 0,
+          "maximum": 100000,
+          "title": "Max Radius M",
+          "type": "number"
+        },
+        "max_bytes": {
+          "default": 5000000,
+          "exclusiveMinimum": 0,
+          "maximum": 5000000,
+          "title": "Max Bytes",
+          "type": "integer"
+        },
+        "max_rows": {
+          "default": 10000,
+          "exclusiveMinimum": 0,
+          "maximum": 10000,
+          "title": "Max Rows",
+          "type": "integer"
+        }
+      },
+      "title": "ImportConfig",
+      "type": "object"
+    },
+    "TrackPoint": {
+      "additionalProperties": false,
+      "properties": {
+        "row": {
+          "minimum": 0,
+          "title": "Row",
+          "type": "integer"
+        },
+        "timestamp_utc": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Timestamp Utc"
+        },
+        "latitude_deg": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Latitude Deg"
+        },
+        "longitude_deg": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Longitude Deg"
+        },
+        "east_m": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "East M"
+        },
+        "north_m": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "North M"
+        },
+        "segment": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Segment"
+        },
+        "accepted": {
+          "default": false,
+          "title": "Accepted",
+          "type": "boolean"
+        },
+        "flags": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Flags",
+          "type": "array"
+        },
+        "heading_deg": {
+          "anyOf": [
+            {
+              "exclusiveMaximum": 360,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Heading Deg"
+        },
+        "wind_from_deg": {
+          "anyOf": [
+            {
+              "exclusiveMaximum": 360,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Wind From Deg"
+        },
+        "wind_speed_m_s": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Wind Speed M S"
+        },
+        "current_east_m_s": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Current East M S"
+        },
+        "current_north_m_s": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Current North M S"
+        },
+        "speed_water_m_s": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Speed Water M S"
+        },
+        "device_speed_over_ground_m_s": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Device Speed Over Ground M S"
+        },
+        "derived_speed_over_ground_m_s": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Derived Speed Over Ground M S"
+        }
+      },
+      "required": [
+        "row",
+        "timestamp_utc",
+        "latitude_deg",
+        "longitude_deg"
+      ],
+      "title": "TrackPoint",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "track-v1",
+      "default": "track-v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "source_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Source Sha256",
+      "type": "string"
+    },
+    "source_format": {
+      "enum": [
+        "csv",
+        "gpx"
+      ],
+      "title": "Source Format",
+      "type": "string"
+    },
+    "session_id": {
+      "maxLength": 100,
+      "minLength": 1,
+      "pattern": "^[\\w.-]+$",
+      "title": "Session Id",
+      "type": "string"
+    },
+    "evidence": {
+      "enum": [
+        "synthetic_fixture",
+        "unvalidated_measurement"
+      ],
+      "title": "Evidence",
+      "type": "string"
+    },
+    "imported_utc": {
+      "format": "date-time",
+      "title": "Imported Utc",
+      "type": "string"
+    },
+    "config": {
+      "$ref": "#/$defs/ImportConfig"
+    },
+    "device_metadata": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "title": "Device Metadata",
+      "type": "object"
+    },
+    "frame": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/Frame"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "points": {
+      "items": {
+        "$ref": "#/$defs/TrackPoint"
+      },
+      "title": "Points",
+      "type": "array"
+    },
+    "units": {
+      "const": "UTC,metres,seconds,m/s,degrees clockwise from north; wind FROM",
+      "default": "UTC,metres,seconds,m/s,degrees clockwise from north; wind FROM",
+      "title": "Units",
+      "type": "string"
+    },
+    "measured": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Measured",
+      "type": "array"
+    },
+    "derived": {
+      "default": [
+        "local coordinates",
+        "GPS speed over ground"
+      ],
+      "items": {
+        "type": "string"
+      },
+      "title": "Derived",
+      "type": "array"
+    },
+    "assumed": {
+      "default": [
+        "quality thresholds",
+        "local projection",
+        "device synchronisation"
+      ],
+      "items": {
+        "type": "string"
+      },
+      "title": "Assumed",
+      "type": "array"
+    }
+  },
+  "required": [
+    "source_sha256",
+    "source_format",
+    "session_id",
+    "evidence",
+    "imported_utc",
+    "config",
+    "frame",
+    "points",
+    "measured"
+  ],
+  "title": "Track",
+  "type": "object"
+}

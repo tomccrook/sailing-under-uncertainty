@@ -1,0 +1,830 @@
+{
+  "$defs": {
+    "CourseConfig": {
+      "additionalProperties": false,
+      "properties": {
+        "coordinate_frame": {
+          "const": "local_east_north_m",
+          "default": "local_east_north_m",
+          "title": "Coordinate Frame",
+          "type": "string"
+        },
+        "start_xy_m": {
+          "default": [
+            0.0,
+            0.0
+          ],
+          "maxItems": 2,
+          "minItems": 2,
+          "prefixItems": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "title": "Start Xy M",
+          "type": "array"
+        },
+        "initial_heading_deg": {
+          "default": 50.0,
+          "title": "Initial Heading Deg",
+          "type": "number"
+        },
+        "target_xy_m": {
+          "default": [
+            0.0,
+            1000.0
+          ],
+          "maxItems": 2,
+          "minItems": 2,
+          "prefixItems": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "title": "Target Xy M",
+          "type": "array"
+        },
+        "finish_radius_m": {
+          "default": 10.0,
+          "exclusiveMinimum": 0,
+          "title": "Finish Radius M",
+          "type": "number"
+        },
+        "bounds_xy_m": {
+          "default": [
+            -600.0,
+            600.0,
+            -100.0,
+            1200.0
+          ],
+          "maxItems": 4,
+          "minItems": 4,
+          "prefixItems": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "title": "Bounds Xy M",
+          "type": "array"
+        },
+        "deadline_s": {
+          "default": 1800.0,
+          "exclusiveMinimum": 0,
+          "title": "Deadline S",
+          "type": "number"
+        }
+      },
+      "title": "CourseConfig",
+      "type": "object"
+    },
+    "EpisodeSummary": {
+      "additionalProperties": false,
+      "properties": {
+        "episode_id": {
+          "default": "fixture-0",
+          "title": "Episode Id",
+          "type": "string"
+        },
+        "policy_id": {
+          "default": "polar_heuristic",
+          "title": "Policy Id",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "running",
+            "finished",
+            "deadline_exceeded",
+            "boundary_violation",
+            "invalid_numeric_state",
+            "cancelled_experiment",
+            "implementation_error"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "elapsed_s": {
+          "minimum": 0,
+          "title": "Elapsed S",
+          "type": "number"
+        },
+        "distance_m": {
+          "minimum": 0,
+          "title": "Distance M",
+          "type": "number"
+        },
+        "tack_count": {
+          "minimum": 0,
+          "title": "Tack Count",
+          "type": "integer"
+        },
+        "manoeuvre_s": {
+          "minimum": 0,
+          "title": "Manoeuvre S",
+          "type": "number"
+        },
+        "decisions": {
+          "minimum": 0,
+          "title": "Decisions",
+          "type": "integer"
+        },
+        "policy_compute_s": {
+          "minimum": 0,
+          "title": "Policy Compute S",
+          "type": "number"
+        },
+        "simulation_compute_s": {
+          "minimum": 0,
+          "title": "Simulation Compute S",
+          "type": "number"
+        }
+      },
+      "required": [
+        "status",
+        "elapsed_s",
+        "distance_m",
+        "tack_count",
+        "manoeuvre_s",
+        "decisions",
+        "policy_compute_s",
+        "simulation_compute_s"
+      ],
+      "title": "EpisodeSummary",
+      "type": "object"
+    },
+    "ForecastPacket": {
+      "additionalProperties": false,
+      "properties": {
+        "issued_s": {
+          "minimum": 0,
+          "title": "Issued S",
+          "type": "number"
+        },
+        "available_s": {
+          "minimum": 0,
+          "title": "Available S",
+          "type": "number"
+        },
+        "horizon_s": {
+          "exclusiveMinimum": 0,
+          "title": "Horizon S",
+          "type": "number"
+        },
+        "spatial_resolution_m": {
+          "exclusiveMinimum": 0,
+          "title": "Spatial Resolution M",
+          "type": "number"
+        },
+        "station_xy_m": {
+          "maxItems": 2,
+          "minItems": 2,
+          "prefixItems": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "title": "Station Xy M",
+          "type": "array"
+        },
+        "model": {
+          "enum": [
+            "persistence",
+            "mean_reversion"
+          ],
+          "title": "Model",
+          "type": "string"
+        },
+        "distribution": {
+          "const": "local-angle-speed-gaussian-v1",
+          "default": "local-angle-speed-gaussian-v1",
+          "title": "Distribution",
+          "type": "string"
+        },
+        "points": {
+          "items": {
+            "$ref": "#/$defs/ForecastPoint"
+          },
+          "title": "Points",
+          "type": "array"
+        }
+      },
+      "required": [
+        "issued_s",
+        "available_s",
+        "horizon_s",
+        "spatial_resolution_m",
+        "station_xy_m",
+        "model",
+        "points"
+      ],
+      "title": "ForecastPacket",
+      "type": "object"
+    },
+    "ForecastPoint": {
+      "additionalProperties": false,
+      "properties": {
+        "valid_s": {
+          "minimum": 0,
+          "title": "Valid S",
+          "type": "number"
+        },
+        "wind_from_rad": {
+          "title": "Wind From Rad",
+          "type": "number"
+        },
+        "speed_m_s": {
+          "minimum": 0,
+          "title": "Speed M S",
+          "type": "number"
+        },
+        "direction_std_rad": {
+          "exclusiveMinimum": 0,
+          "title": "Direction Std Rad",
+          "type": "number"
+        },
+        "speed_std_m_s": {
+          "exclusiveMinimum": 0,
+          "title": "Speed Std M S",
+          "type": "number"
+        }
+      },
+      "required": [
+        "valid_s",
+        "wind_from_rad",
+        "speed_m_s",
+        "direction_std_rad",
+        "speed_std_m_s"
+      ],
+      "title": "ForecastPoint",
+      "type": "object"
+    },
+    "Observation": {
+      "additionalProperties": false,
+      "properties": {
+        "elapsed_s": {
+          "minimum": 0,
+          "title": "Elapsed S",
+          "type": "number"
+        },
+        "position_xy_m": {
+          "maxItems": 2,
+          "minItems": 2,
+          "prefixItems": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "title": "Position Xy M",
+          "type": "array"
+        },
+        "heading_rad": {
+          "title": "Heading Rad",
+          "type": "number"
+        },
+        "speed_water_m_s": {
+          "minimum": 0,
+          "title": "Speed Water M S",
+          "type": "number"
+        },
+        "target_xy_m": {
+          "maxItems": 2,
+          "minItems": 2,
+          "prefixItems": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "title": "Target Xy M",
+          "type": "array"
+        },
+        "remaining_s": {
+          "minimum": 0,
+          "title": "Remaining S",
+          "type": "number"
+        },
+        "bounds_xy_m": {
+          "default": [
+            -600,
+            600,
+            -100,
+            1200
+          ],
+          "maxItems": 4,
+          "minItems": 4,
+          "prefixItems": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "title": "Bounds Xy M",
+          "type": "array"
+        },
+        "wind_air_m_s": {
+          "maxItems": 2,
+          "minItems": 2,
+          "prefixItems": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "title": "Wind Air M S",
+          "type": "array"
+        },
+        "known_current_m_s": {
+          "maxItems": 2,
+          "minItems": 2,
+          "prefixItems": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "title": "Known Current M S",
+          "type": "array"
+        },
+        "measurement_time_s": {
+          "minimum": 0,
+          "title": "Measurement Time S",
+          "type": "number"
+        },
+        "measurement_valid": {
+          "title": "Measurement Valid",
+          "type": "boolean"
+        },
+        "manoeuvre_active": {
+          "title": "Manoeuvre Active",
+          "type": "boolean"
+        },
+        "previous_action_rad": {
+          "title": "Previous Action Rad",
+          "type": "number"
+        },
+        "information_set": {
+          "default": "perfect_local_known_current",
+          "enum": [
+            "perfect_local_known_current",
+            "noisy_local_known_current"
+          ],
+          "title": "Information Set",
+          "type": "string"
+        },
+        "measurement_available_s": {
+          "default": 0.0,
+          "minimum": 0,
+          "title": "Measurement Available S",
+          "type": "number"
+        },
+        "latest_sensor_dropout": {
+          "default": false,
+          "title": "Latest Sensor Dropout",
+          "type": "boolean"
+        },
+        "belief": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/WindBelief"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "forecast": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ForecastPacket"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "executed_target_rad": {
+          "default": 0.0,
+          "title": "Executed Target Rad",
+          "type": "number"
+        },
+        "manoeuvre_remaining_s": {
+          "default": 0.0,
+          "minimum": 0,
+          "title": "Manoeuvre Remaining S",
+          "type": "number"
+        }
+      },
+      "required": [
+        "elapsed_s",
+        "position_xy_m",
+        "heading_rad",
+        "speed_water_m_s",
+        "target_xy_m",
+        "remaining_s",
+        "wind_air_m_s",
+        "known_current_m_s",
+        "measurement_time_s",
+        "measurement_valid",
+        "manoeuvre_active",
+        "previous_action_rad"
+      ],
+      "title": "Observation",
+      "type": "object"
+    },
+    "PolicyConfig": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "default": "polar_heuristic",
+          "enum": [
+            "polar_heuristic",
+            "deterministic_mpc",
+            "scenario_mpc"
+          ],
+          "title": "Name",
+          "type": "string"
+        },
+        "wind_input": {
+          "default": "raw",
+          "enum": [
+            "raw",
+            "belief"
+          ],
+          "title": "Wind Input",
+          "type": "string"
+        },
+        "deterministic_sensor_model": {
+          "default": "expected",
+          "enum": [
+            "expected",
+            "sampled"
+          ],
+          "title": "Deterministic Sensor Model",
+          "type": "string"
+        },
+        "planning_horizon_s": {
+          "default": 60.0,
+          "exclusiveMinimum": 0,
+          "title": "Planning Horizon S",
+          "type": "number"
+        },
+        "scenario_count": {
+          "default": 8,
+          "maximum": 128,
+          "minimum": 2,
+          "title": "Scenario Count",
+          "type": "integer"
+        },
+        "risk_lambda": {
+          "default": 0.25,
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Risk Lambda",
+          "type": "number"
+        },
+        "cvar_alpha": {
+          "default": 0.95,
+          "exclusiveMaximum": 1,
+          "exclusiveMinimum": 0,
+          "title": "Cvar Alpha",
+          "type": "number"
+        },
+        "failure_cost_s": {
+          "default": 2400.0,
+          "exclusiveMinimum": 0,
+          "title": "Failure Cost S",
+          "type": "number"
+        },
+        "initial_side": {
+          "default": 1,
+          "enum": [
+            -1,
+            1
+          ],
+          "title": "Initial Side",
+          "type": "integer"
+        },
+        "commitment_s": {
+          "default": 20.0,
+          "minimum": 0,
+          "title": "Commitment S",
+          "type": "number"
+        },
+        "layline_margin_s": {
+          "default": 9.0,
+          "minimum": 0,
+          "title": "Layline Margin S",
+          "type": "number"
+        },
+        "direct_approach_m": {
+          "default": 100.0,
+          "minimum": 0,
+          "title": "Direct Approach M",
+          "type": "number"
+        },
+        "boundary_guard_s": {
+          "default": 0.0,
+          "minimum": 0,
+          "title": "Boundary Guard S",
+          "type": "number"
+        }
+      },
+      "title": "PolicyConfig",
+      "type": "object"
+    },
+    "ReplaySample": {
+      "additionalProperties": false,
+      "properties": {
+        "elapsed_s": {
+          "minimum": 0,
+          "title": "Elapsed S",
+          "type": "number"
+        },
+        "position_xy_m": {
+          "maxItems": 2,
+          "minItems": 2,
+          "prefixItems": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "title": "Position Xy M",
+          "type": "array"
+        },
+        "heading_rad": {
+          "title": "Heading Rad",
+          "type": "number"
+        },
+        "speed_water_m_s": {
+          "minimum": 0,
+          "title": "Speed Water M S",
+          "type": "number"
+        },
+        "tack_count": {
+          "minimum": 0,
+          "title": "Tack Count",
+          "type": "integer"
+        },
+        "manoeuvre_active": {
+          "title": "Manoeuvre Active",
+          "type": "boolean"
+        },
+        "requested_heading_rad": {
+          "title": "Requested Heading Rad",
+          "type": "number"
+        },
+        "executed_target_rad": {
+          "title": "Executed Target Rad",
+          "type": "number"
+        },
+        "observation": {
+          "$ref": "#/$defs/Observation"
+        },
+        "diagnostic_wind_air_m_s": {
+          "maxItems": 2,
+          "minItems": 2,
+          "prefixItems": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "title": "Diagnostic Wind Air M S",
+          "type": "array"
+        },
+        "diagnostic_current_m_s": {
+          "maxItems": 2,
+          "minItems": 2,
+          "prefixItems": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "title": "Diagnostic Current M S",
+          "type": "array"
+        }
+      },
+      "required": [
+        "elapsed_s",
+        "position_xy_m",
+        "heading_rad",
+        "speed_water_m_s",
+        "tack_count",
+        "manoeuvre_active",
+        "requested_heading_rad",
+        "executed_target_rad",
+        "observation",
+        "diagnostic_wind_air_m_s",
+        "diagnostic_current_m_s"
+      ],
+      "title": "ReplaySample",
+      "type": "object"
+    },
+    "WindBelief": {
+      "additionalProperties": false,
+      "properties": {
+        "elapsed_s": {
+          "minimum": 0,
+          "title": "Elapsed S",
+          "type": "number"
+        },
+        "mean_air_m_s": {
+          "maxItems": 2,
+          "minItems": 2,
+          "prefixItems": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "title": "Mean Air M S",
+          "type": "array"
+        },
+        "covariance_m2_s2": {
+          "maxItems": 2,
+          "minItems": 2,
+          "prefixItems": [
+            {
+              "maxItems": 2,
+              "minItems": 2,
+              "prefixItems": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "number"
+                }
+              ],
+              "type": "array"
+            },
+            {
+              "maxItems": 2,
+              "minItems": 2,
+              "prefixItems": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "number"
+                }
+              ],
+              "type": "array"
+            }
+          ],
+          "title": "Covariance M2 S2",
+          "type": "array"
+        },
+        "model_version": {
+          "const": "vector-random-walk-v1",
+          "default": "vector-random-walk-v1",
+          "title": "Model Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "elapsed_s",
+        "mean_air_m_s",
+        "covariance_m2_s2"
+      ],
+      "title": "WindBelief",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": 1,
+      "default": 1,
+      "title": "Schema Version",
+      "type": "integer"
+    },
+    "run_id": {
+      "title": "Run Id",
+      "type": "string"
+    },
+    "evidence_level": {
+      "const": "synthetic",
+      "default": "synthetic",
+      "title": "Evidence Level",
+      "type": "string"
+    },
+    "config_hash": {
+      "title": "Config Hash",
+      "type": "string"
+    },
+    "policy_label": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Policy Label"
+    },
+    "policy_parameters": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/PolicyConfig"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "world_family": {
+      "default": "constant",
+      "enum": [
+        "constant",
+        "oscillating",
+        "ou",
+        "regime",
+        "spatial"
+      ],
+      "title": "World Family",
+      "type": "string"
+    },
+    "stage": {
+      "default": "fixture",
+      "enum": [
+        "fixture",
+        "development",
+        "locked"
+      ],
+      "title": "Stage",
+      "type": "string"
+    },
+    "course": {
+      "$ref": "#/$defs/CourseConfig"
+    },
+    "summary": {
+      "$ref": "#/$defs/EpisodeSummary"
+    },
+    "samples": {
+      "items": {
+        "$ref": "#/$defs/ReplaySample"
+      },
+      "title": "Samples",
+      "type": "array"
+    }
+  },
+  "required": [
+    "run_id",
+    "config_hash",
+    "course",
+    "summary",
+    "samples"
+  ],
+  "title": "ReplayBundle",
+  "type": "object"
+}

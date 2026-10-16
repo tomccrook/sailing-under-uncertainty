@@ -1,0 +1,316 @@
+{
+  "$defs": {
+    "Difference": {
+      "additionalProperties": false,
+      "properties": {
+        "reference": {
+          "enum": [
+            "B1_belief",
+            "B2_matched",
+            "B3_mean_matched",
+            "B3_risk_matched",
+            "B3_risk_original"
+          ],
+          "title": "Reference",
+          "type": "string"
+        },
+        "mean_difference_s": {
+          "title": "Mean Difference S",
+          "type": "number"
+        },
+        "mean_difference_95": {
+          "maxItems": 2,
+          "minItems": 2,
+          "title": "Mean Difference 95",
+          "type": "array",
+          "items": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
+        "cvar95_difference_s": {
+          "title": "Cvar95 Difference S",
+          "type": "number"
+        },
+        "cvar95_difference_95": {
+          "maxItems": 2,
+          "minItems": 2,
+          "title": "Cvar95 Difference 95",
+          "type": "array",
+          "items": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        }
+      },
+      "required": [
+        "reference",
+        "mean_difference_s",
+        "mean_difference_95",
+        "cvar95_difference_s",
+        "cvar95_difference_95"
+      ],
+      "title": "Difference",
+      "type": "object"
+    },
+    "PolicySummary": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "enum": [
+            "B1_belief",
+            "B2_matched",
+            "B3_mean_matched",
+            "B3_risk_matched",
+            "B3_risk_original"
+          ],
+          "title": "Name",
+          "type": "string"
+        },
+        "finished": {
+          "minimum": 0,
+          "title": "Finished",
+          "type": "integer"
+        },
+        "boundary_violation": {
+          "minimum": 0,
+          "title": "Boundary Violation",
+          "type": "integer"
+        },
+        "deadline_exceeded": {
+          "minimum": 0,
+          "title": "Deadline Exceeded",
+          "type": "integer"
+        },
+        "mean_cost_s": {
+          "minimum": 0,
+          "title": "Mean Cost S",
+          "type": "number"
+        },
+        "cvar95_s": {
+          "minimum": 0,
+          "title": "Cvar95 S",
+          "type": "number"
+        },
+        "steps": {
+          "minimum": 0,
+          "title": "Steps",
+          "type": "integer"
+        },
+        "steps_per_decision": {
+          "minimum": 0,
+          "title": "Steps Per Decision",
+          "type": "number"
+        },
+        "decision_latency_p95_s": {
+          "minimum": 0,
+          "title": "Decision Latency P95 S",
+          "type": "number"
+        },
+        "latency_mean_s": {
+          "minimum": 0,
+          "title": "Latency Mean S",
+          "type": "number"
+        },
+        "recursive_step_calls": {
+          "minimum": 0,
+          "title": "Recursive Step Calls",
+          "type": "integer"
+        },
+        "zero_failure_upper95": {
+          "anyOf": [
+            {
+              "maximum": 1,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Zero Failure Upper95"
+        }
+      },
+      "required": [
+        "name",
+        "finished",
+        "boundary_violation",
+        "deadline_exceeded",
+        "mean_cost_s",
+        "cvar95_s",
+        "steps",
+        "steps_per_decision",
+        "decision_latency_p95_s",
+        "latency_mean_s",
+        "recursive_step_calls"
+      ],
+      "title": "PolicySummary",
+      "type": "object"
+    },
+    "WorkCohort": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "enum": [
+            "nominal",
+            "new_family",
+            "oscillating",
+            "ou",
+            "regime",
+            "spatial",
+            "gust_front",
+            "persistent_trend"
+          ],
+          "title": "Name",
+          "type": "string"
+        },
+        "worlds": {
+          "minimum": 1,
+          "title": "Worlds",
+          "type": "integer"
+        },
+        "tail_effective_worlds": {
+          "exclusiveMinimum": 0,
+          "title": "Tail Effective Worlds",
+          "type": "number"
+        },
+        "work_matching_passed": {
+          "title": "Work Matching Passed",
+          "type": "boolean"
+        },
+        "matching_tolerance": {
+          "exclusiveMinimum": 0,
+          "maximum": 0.15,
+          "title": "Matching Tolerance",
+          "type": "number"
+        },
+        "policies": {
+          "items": {
+            "$ref": "#/$defs/PolicySummary"
+          },
+          "title": "Policies",
+          "type": "array"
+        },
+        "contrasts": {
+          "items": {
+            "$ref": "#/$defs/Difference"
+          },
+          "title": "Contrasts",
+          "type": "array"
+        }
+      },
+      "required": [
+        "name",
+        "worlds",
+        "tail_effective_worlds",
+        "work_matching_passed",
+        "matching_tolerance",
+        "policies",
+        "contrasts"
+      ],
+      "title": "WorkCohort",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "version": {
+      "const": "measured-work-publication-v1",
+      "default": "measured-work-publication-v1",
+      "title": "Version",
+      "type": "string"
+    },
+    "evidence_level": {
+      "const": "locked_synthetic_measured_work_and_new_processes",
+      "default": "locked_synthetic_measured_work_and_new_processes",
+      "title": "Evidence Level",
+      "type": "string"
+    },
+    "lock_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Lock Sha256",
+      "type": "string"
+    },
+    "report_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Report Sha256",
+      "type": "string"
+    },
+    "episodes_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Episodes Sha256",
+      "type": "string"
+    },
+    "worlds": {
+      "minimum": 1,
+      "title": "Worlds",
+      "type": "integer"
+    },
+    "episodes": {
+      "minimum": 1,
+      "title": "Episodes",
+      "type": "integer"
+    },
+    "horizon_s": {
+      "enum": [110, 120, 130, 140, 150],
+      "title": "Horizon S",
+      "type": "integer"
+    },
+    "matched_samples": {
+      "const": 2,
+      "default": 2,
+      "title": "Matched Samples",
+      "type": "integer"
+    },
+    "wall_s": {
+      "exclusiveMinimum": 0,
+      "title": "Wall S",
+      "type": "number"
+    },
+    "cohorts": {
+      "items": {
+        "$ref": "#/$defs/WorkCohort"
+      },
+      "title": "Cohorts",
+      "type": "array"
+    },
+    "families": {
+      "items": {
+        "$ref": "#/$defs/WorkCohort"
+      },
+      "title": "Families",
+      "type": "array"
+    },
+    "limitations": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Limitations",
+      "type": "array"
+    }
+  },
+  "required": [
+    "lock_sha256",
+    "report_sha256",
+    "episodes_sha256",
+    "worlds",
+    "episodes",
+    "horizon_s",
+    "wall_s",
+    "cohorts",
+    "families",
+    "limitations"
+  ],
+  "title": "ComputePublication",
+  "type": "object",
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}

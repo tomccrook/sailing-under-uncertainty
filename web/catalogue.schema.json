@@ -1,0 +1,187 @@
+{
+  "$defs": {
+    "Asset": {
+      "additionalProperties": false,
+      "properties": {
+        "url": {
+          "pattern": "^/demo/[a-zA-Z0-9_./-]+$",
+          "title": "Url",
+          "type": "string"
+        },
+        "sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Sha256",
+          "type": "string"
+        }
+      },
+      "required": ["url", "sha256"],
+      "title": "Asset",
+      "type": "object"
+    },
+    "Recording": {
+      "additionalProperties": false,
+      "properties": {
+        "variant": {
+          "title": "Variant",
+          "type": "string"
+        },
+        "run_id": {
+          "title": "Run Id",
+          "type": "string"
+        },
+        "status": {
+          "enum": ["finished", "deadline_exceeded", "boundary_violation"],
+          "title": "Status",
+          "type": "string"
+        },
+        "elapsed_s": {
+          "exclusiveMinimum": 0,
+          "title": "Elapsed S",
+          "type": "number"
+        },
+        "cost_s": {
+          "exclusiveMinimum": 0,
+          "title": "Cost S",
+          "type": "number"
+        },
+        "replay": {
+          "$ref": "#/$defs/Asset"
+        },
+        "details": {
+          "$ref": "#/$defs/Asset"
+        },
+        "manifest": {
+          "$ref": "#/$defs/Asset"
+        }
+      },
+      "required": [
+        "variant",
+        "run_id",
+        "status",
+        "elapsed_s",
+        "cost_s",
+        "replay",
+        "details",
+        "manifest"
+      ],
+      "title": "Recording",
+      "type": "object"
+    },
+    "Scenario": {
+      "additionalProperties": false,
+      "properties": {
+        "scenario_id": {
+          "title": "Scenario Id",
+          "type": "string"
+        },
+        "label": {
+          "title": "Label",
+          "type": "string"
+        },
+        "selection_reason": {
+          "title": "Selection Reason",
+          "type": "string"
+        },
+        "slice": {
+          "title": "Slice",
+          "type": "string"
+        },
+        "world_hash": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "World Hash",
+          "type": "string"
+        },
+        "pairing_hash": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Pairing Hash",
+          "type": "string"
+        },
+        "recordings": {
+          "items": {
+            "$ref": "#/$defs/Recording"
+          },
+          "maxItems": 32,
+          "minItems": 2,
+          "title": "Recordings",
+          "type": "array"
+        }
+      },
+      "required": [
+        "scenario_id",
+        "label",
+        "selection_reason",
+        "slice",
+        "world_hash",
+        "pairing_hash",
+        "recordings"
+      ],
+      "title": "Scenario",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "version": {
+      "const": 1,
+      "default": 1,
+      "title": "Version",
+      "type": "integer"
+    },
+    "stage": {
+      "const": "locked_diagnostic",
+      "default": "locked_diagnostic",
+      "title": "Stage",
+      "type": "string"
+    },
+    "lock_hash": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Lock Hash",
+      "type": "string"
+    },
+    "evaluation_manifest_hash": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Evaluation Manifest Hash",
+      "type": "string"
+    },
+    "default_scenario_id": {
+      "title": "Default Scenario Id",
+      "type": "string"
+    },
+    "scenarios": {
+      "items": {
+        "$ref": "#/$defs/Scenario"
+      },
+      "maxItems": 16,
+      "minItems": 1,
+      "title": "Scenarios",
+      "type": "array"
+    },
+    "documents": {
+      "additionalProperties": {
+        "$ref": "#/$defs/Asset"
+      },
+      "title": "Documents",
+      "type": "object"
+    },
+    "calibration": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/Asset"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    }
+  },
+  "required": [
+    "lock_hash",
+    "evaluation_manifest_hash",
+    "default_scenario_id",
+    "scenarios",
+    "documents"
+  ],
+  "title": "Catalogue",
+  "type": "object"
+}

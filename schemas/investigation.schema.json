@@ -1,0 +1,285 @@
+{
+  "$defs": {
+    "StrategySummary": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "enum": [
+            "fixed_script",
+            "local_assistant",
+            "researcher_critic"
+          ],
+          "title": "Name",
+          "type": "string"
+        },
+        "tasks": {
+          "minimum": 1,
+          "title": "Tasks",
+          "type": "integer"
+        },
+        "accepted_reports": {
+          "minimum": 0,
+          "title": "Accepted Reports",
+          "type": "integer"
+        },
+        "exact_issue_sets": {
+          "minimum": 0,
+          "title": "Exact Issue Sets",
+          "type": "integer"
+        },
+        "exact_rate_wilson95": {
+          "maxItems": 2,
+          "minItems": 2,
+          "title": "Exact Rate Wilson95",
+          "type": "array",
+          "items": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
+        "false_accusations": {
+          "minimum": 0,
+          "title": "False Accusations",
+          "type": "integer"
+        },
+        "missed_issues": {
+          "minimum": 0,
+          "title": "Missed Issues",
+          "type": "integer"
+        },
+        "unsupported_structured_claims": {
+          "minimum": 0,
+          "title": "Unsupported Structured Claims",
+          "type": "integer"
+        },
+        "numerical_correct_reports": {
+          "minimum": 0,
+          "title": "Numerical Correct Reports",
+          "type": "integer"
+        },
+        "budget_compliant_tasks": {
+          "minimum": 0,
+          "title": "Budget Compliant Tasks",
+          "type": "integer"
+        },
+        "wall_s": {
+          "minimum": 0,
+          "title": "Wall S",
+          "type": "number"
+        },
+        "model_calls": {
+          "minimum": 0,
+          "title": "Model Calls",
+          "type": "integer"
+        },
+        "generated_tokens": {
+          "minimum": 0,
+          "title": "Generated Tokens",
+          "type": "integer"
+        },
+        "prompt_tokens": {
+          "minimum": 0,
+          "title": "Prompt Tokens",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "name",
+        "tasks",
+        "accepted_reports",
+        "exact_issue_sets",
+        "exact_rate_wilson95",
+        "false_accusations",
+        "missed_issues",
+        "unsupported_structured_claims",
+        "numerical_correct_reports",
+        "budget_compliant_tasks",
+        "wall_s",
+        "model_calls",
+        "generated_tokens",
+        "prompt_tokens"
+      ],
+      "title": "StrategySummary",
+      "type": "object"
+    },
+    "TaskScore": {
+      "additionalProperties": false,
+      "properties": {
+        "task_id": {
+          "pattern": "^evaluation-[0-9]{2}$",
+          "title": "Task Id",
+          "type": "string"
+        },
+        "strategy": {
+          "enum": [
+            "fixed_script",
+            "local_assistant",
+            "researcher_critic"
+          ],
+          "title": "Strategy",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "succeeded",
+            "failed"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "expected_issues": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Expected Issues",
+          "type": "array"
+        },
+        "predicted_issues": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Predicted Issues",
+          "type": "array"
+        },
+        "exact_issue_set": {
+          "title": "Exact Issue Set",
+          "type": "boolean"
+        },
+        "accepted_report": {
+          "title": "Accepted Report",
+          "type": "boolean"
+        },
+        "evidence_links_correct": {
+          "title": "Evidence Links Correct",
+          "type": "boolean"
+        },
+        "numerical_correct": {
+          "title": "Numerical Correct",
+          "type": "boolean"
+        },
+        "error": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Error"
+        },
+        "explanation": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Explanation"
+        }
+      },
+      "required": [
+        "task_id",
+        "strategy",
+        "status",
+        "expected_issues",
+        "predicted_issues",
+        "exact_issue_set",
+        "accepted_report",
+        "evidence_links_correct",
+        "numerical_correct",
+        "error",
+        "explanation"
+      ],
+      "title": "TaskScore",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": 1,
+      "default": 1,
+      "title": "Schema Version",
+      "type": "integer"
+    },
+    "evidence_level": {
+      "const": "synthetic_audit_fixture",
+      "default": "synthetic_audit_fixture",
+      "title": "Evidence Level",
+      "type": "string"
+    },
+    "model_repository": {
+      "title": "Model Repository",
+      "type": "string"
+    },
+    "model_revision": {
+      "pattern": "^[a-f0-9]{40}$",
+      "title": "Model Revision",
+      "type": "string"
+    },
+    "source_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Source Sha256",
+      "type": "string"
+    },
+    "protocol_version": {
+      "title": "Protocol Version",
+      "type": "string"
+    },
+    "strategies": {
+      "items": {
+        "$ref": "#/$defs/StrategySummary"
+      },
+      "title": "Strategies",
+      "type": "array"
+    },
+    "tasks": {
+      "items": {
+        "$ref": "#/$defs/TaskScore"
+      },
+      "title": "Tasks",
+      "type": "array"
+    },
+    "paid_service_cost_usd": {
+      "const": 0,
+      "default": 0,
+      "title": "Paid Service Cost Usd",
+      "type": "integer"
+    },
+    "result_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Result Sha256",
+      "type": "string"
+    },
+    "evidence_url": {
+      "const": "/investigation-evidence.json",
+      "default": "/investigation-evidence.json",
+      "title": "Evidence Url",
+      "type": "string"
+    },
+    "limits": {
+      "title": "Limits",
+      "type": "string"
+    }
+  },
+  "required": [
+    "model_repository",
+    "model_revision",
+    "source_sha256",
+    "protocol_version",
+    "strategies",
+    "tasks",
+    "result_sha256",
+    "limits"
+  ],
+  "title": "InvestigationCatalogue",
+  "type": "object",
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}

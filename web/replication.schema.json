@@ -1,0 +1,352 @@
+{
+  "$defs": {
+    "CohortResult": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "enum": [
+            "nominal",
+            "sensor_delay",
+            "delay_tack",
+            "oscillating",
+            "ou",
+            "regime",
+            "spatial"
+          ],
+          "title": "Name",
+          "type": "string"
+        },
+        "worlds": {
+          "minimum": 1,
+          "title": "Worlds",
+          "type": "integer"
+        },
+        "tail_effective_worlds": {
+          "exclusiveMinimum": 0,
+          "title": "Tail Effective Worlds",
+          "type": "number"
+        },
+        "policies": {
+          "items": {
+            "$ref": "#/$defs/PolicyResult"
+          },
+          "title": "Policies",
+          "type": "array"
+        },
+        "contrasts": {
+          "items": {
+            "$ref": "#/$defs/Contrast"
+          },
+          "title": "Contrasts",
+          "type": "array"
+        }
+      },
+      "required": [
+        "name",
+        "worlds",
+        "tail_effective_worlds",
+        "policies",
+        "contrasts"
+      ],
+      "title": "CohortResult",
+      "type": "object"
+    },
+    "Contrast": {
+      "additionalProperties": false,
+      "properties": {
+        "reference": {
+          "enum": ["B1_belief", "B2_mean", "B2_budget", "B3_mean"],
+          "title": "Reference",
+          "type": "string"
+        },
+        "mean_difference_s": {
+          "title": "Mean Difference S",
+          "type": "number"
+        },
+        "mean_difference_95": {
+          "maxItems": 2,
+          "minItems": 2,
+          "title": "Mean Difference 95",
+          "type": "array",
+          "items": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
+        "cvar95_difference_s": {
+          "title": "Cvar95 Difference S",
+          "type": "number"
+        },
+        "cvar95_difference_95": {
+          "maxItems": 2,
+          "minItems": 2,
+          "title": "Cvar95 Difference 95",
+          "type": "array",
+          "items": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        }
+      },
+      "required": [
+        "reference",
+        "mean_difference_s",
+        "mean_difference_95",
+        "cvar95_difference_s",
+        "cvar95_difference_95"
+      ],
+      "title": "Contrast",
+      "type": "object"
+    },
+    "PolicyResult": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "enum": ["B1_belief", "B2_mean", "B2_budget", "B3_mean", "B3_risk"],
+          "title": "Name",
+          "type": "string"
+        },
+        "worlds": {
+          "minimum": 1,
+          "title": "Worlds",
+          "type": "integer"
+        },
+        "finished": {
+          "minimum": 0,
+          "title": "Finished",
+          "type": "integer"
+        },
+        "deadline_exceeded": {
+          "minimum": 0,
+          "title": "Deadline Exceeded",
+          "type": "integer"
+        },
+        "boundary_violation": {
+          "minimum": 0,
+          "title": "Boundary Violation",
+          "type": "integer"
+        },
+        "mean_cost_s": {
+          "minimum": 0,
+          "title": "Mean Cost S",
+          "type": "number"
+        },
+        "cvar95_s": {
+          "minimum": 0,
+          "title": "Cvar95 S",
+          "type": "number"
+        },
+        "decision_latency_mean_s": {
+          "minimum": 0,
+          "title": "Decision Latency Mean S",
+          "type": "number"
+        },
+        "decision_latency_p95_s": {
+          "minimum": 0,
+          "title": "Decision Latency P95 S",
+          "type": "number"
+        },
+        "model_steps": {
+          "minimum": 0,
+          "title": "Model Steps",
+          "type": "integer"
+        },
+        "model_step_calls_including_splits": {
+          "minimum": 0,
+          "title": "Model Step Calls Including Splits",
+          "type": "integer"
+        },
+        "allocated_model_step_ceilings": {
+          "minimum": 0,
+          "title": "Allocated Model Step Ceilings",
+          "type": "integer"
+        },
+        "model_rollouts": {
+          "minimum": 0,
+          "title": "Model Rollouts",
+          "type": "integer"
+        },
+        "zero_failure_upper95": {
+          "anyOf": [
+            {
+              "maximum": 1,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Zero Failure Upper95"
+        }
+      },
+      "required": [
+        "name",
+        "worlds",
+        "finished",
+        "deadline_exceeded",
+        "boundary_violation",
+        "mean_cost_s",
+        "cvar95_s",
+        "decision_latency_mean_s",
+        "decision_latency_p95_s",
+        "model_steps",
+        "model_step_calls_including_splits",
+        "allocated_model_step_ceilings",
+        "model_rollouts",
+        "zero_failure_upper95"
+      ],
+      "title": "PolicyResult",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": 1,
+      "default": 1,
+      "title": "Schema Version",
+      "type": "integer"
+    },
+    "evidence_level": {
+      "const": "independent_locked_synthetic_replication",
+      "default": "independent_locked_synthetic_replication",
+      "title": "Evidence Level",
+      "type": "string"
+    },
+    "lock_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Lock Sha256",
+      "type": "string"
+    },
+    "original_lock_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Original Lock Sha256",
+      "type": "string"
+    },
+    "numerical_source_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Numerical Source Sha256",
+      "type": "string"
+    },
+    "method_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Method Sha256",
+      "type": "string"
+    },
+    "report_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Report Sha256",
+      "type": "string"
+    },
+    "episodes_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Episodes Sha256",
+      "type": "string"
+    },
+    "episodes_url": {
+      "const": "/replication/episodes.parquet",
+      "default": "/replication/episodes.parquet",
+      "title": "Episodes Url",
+      "type": "string"
+    },
+    "report_url": {
+      "const": "/replication/report.json",
+      "default": "/replication/report.json",
+      "title": "Report Url",
+      "type": "string"
+    },
+    "total_worlds": {
+      "minimum": 1,
+      "title": "Total Worlds",
+      "type": "integer"
+    },
+    "retained_episodes": {
+      "minimum": 1,
+      "title": "Retained Episodes",
+      "type": "integer"
+    },
+    "selected_deterministic_horizon_s": {
+      "enum": [60, 120, 240, 480],
+      "title": "Selected Deterministic Horizon S",
+      "type": "integer"
+    },
+    "evaluation_wall_s": {
+      "exclusiveMinimum": 0,
+      "title": "Evaluation Wall S",
+      "type": "number"
+    },
+    "workers": {
+      "maximum": 4,
+      "minimum": 1,
+      "title": "Workers",
+      "type": "integer"
+    },
+    "bootstrap_count": {
+      "minimum": 200,
+      "title": "Bootstrap Count",
+      "type": "integer"
+    },
+    "analysis_seed": {
+      "const": 885300,
+      "default": 885300,
+      "title": "Analysis Seed",
+      "type": "integer"
+    },
+    "precision_target_met": {
+      "description": "Nominal sample-count target only: at least 1024 worlds. Does not assert narrow intervals or close the scientific precision gate.",
+      "title": "Precision Target Met",
+      "type": "boolean"
+    },
+    "cohorts": {
+      "items": {
+        "$ref": "#/$defs/CohortResult"
+      },
+      "title": "Cohorts",
+      "type": "array"
+    },
+    "nominal_families": {
+      "items": {
+        "$ref": "#/$defs/CohortResult"
+      },
+      "title": "Nominal Families",
+      "type": "array"
+    },
+    "limitations": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Limitations",
+      "type": "array"
+    }
+  },
+  "required": [
+    "lock_sha256",
+    "original_lock_sha256",
+    "numerical_source_sha256",
+    "method_sha256",
+    "report_sha256",
+    "episodes_sha256",
+    "total_worlds",
+    "retained_episodes",
+    "selected_deterministic_horizon_s",
+    "evaluation_wall_s",
+    "workers",
+    "bootstrap_count",
+    "precision_target_met",
+    "cohorts",
+    "nominal_families",
+    "limitations"
+  ],
+  "title": "ReplicationPublication",
+  "type": "object",
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}
