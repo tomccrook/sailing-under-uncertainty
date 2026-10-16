@@ -32,3 +32,9 @@ The local frontend production build passed with Node 24.21.0. The GitHub Actions
 | 2026-08-28 | Add study reports and runnable example |
 
 The source import is consolidated into ten substantive file groups. Subsequent maintenance changes use their actual dates.
+
+## Maintenance fixes — 16 October 2026
+
+Wind generation now rejects nonfinite OU parameters before drawing randomness, and rejects nonfinite world durations explicitly. Regression tests cover invalid values and preservation of the random generator state. All 162 core tests passed; Ruff and mypy passed.
+
+These targeted fixes do not rerun the protected scientific studies or update their recorded numerical findings.

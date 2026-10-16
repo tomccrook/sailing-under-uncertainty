@@ -24,6 +24,23 @@ def test_exact_ou_stationarity_and_transition() -> None:
     assert float(np.var(fine)) == pytest.approx(float(np.var(coarse)), rel=0.08)
 
 
+@pytest.mark.parametrize("parameter", ["dt", "mean", "kappa", "sigma"])
+@pytest.mark.parametrize("bad", [float("nan"), float("inf"), -float("inf")])
+def test_ou_rejects_nonfinite_parameters_without_consuming_rng(parameter: str, bad: float) -> None:
+    params = {"dt": 1.0, "mean": 0.0, "kappa": 0.3, "sigma": 0.8}
+    params[parameter] = bad
+    rng = np.random.default_rng(724)
+    with pytest.raises(ValueError, match="invalid OU path parameters"):
+        ou_path(rng, 5, **params)
+    assert rng.normal() == np.random.default_rng(724).normal()
+
+
+@pytest.mark.parametrize("duration", [float("nan"), float("inf"), -float("inf")])
+def test_world_rejects_nonfinite_duration(duration: float) -> None:
+    with pytest.raises(ValueError, match="finite positive world duration"):
+        FrozenWorld(WorldConfig(), 123, duration)
+
+
 @pytest.mark.parametrize("family", ["constant", "oscillating", "ou", "regime", "spatial"])
 def test_world_frozen_reproducible_bounded_and_query_order_independent(family: str) -> None:
     config = WorldConfig.model_validate({"family": family})

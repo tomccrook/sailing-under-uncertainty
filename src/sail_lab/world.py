@@ -37,7 +37,13 @@ def ou_path(
     sigma: float,
 ) -> NDArray[np.float64]:
     """Stationary initialisation and exact scalar OU transitions (units supplied by caller)."""
-    if count < 1 or dt <= 0 or kappa <= 0 or sigma < 0:
+    if (
+        not all(math.isfinite(value) for value in (dt, mean, kappa, sigma))
+        or count < 1
+        or dt <= 0
+        or kappa <= 0
+        or sigma < 0
+    ):
         raise ValueError("invalid OU path parameters")
     decay = math.exp(-kappa * dt)
     stationary_sd = sigma / math.sqrt(2 * kappa)
@@ -52,8 +58,8 @@ def ou_path(
 
 class FrozenWorld:
     def __init__(self, config: WorldConfig, root_seed: int, duration_s: float):
-        if duration_s <= 0:
-            raise ValueError("positive world duration required")
+        if not math.isfinite(duration_s) or duration_s <= 0:
+            raise ValueError("finite positive world duration required")
         self.config = config
         self.duration_s = duration_s
         count = math.ceil(duration_s / config.grid_dt_s) + 1
